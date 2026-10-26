@@ -1,0 +1,149 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+/*
+ * Kristal — ortak değişkenler (renkler, ölçüler).
+ *
+ * Bu dosya ana pencere, posta sekmesi ve ileti başlığı belgelerinin hepsine
+ * yüklenir. Thunderbird'ün kendi renk değişkenleri burada Kristal paletine
+ * bağlanır; böylece menüler, düğmeler ve paneller tek bir aileye uyar.
+ *
+ * Erişilebilirlik:
+ *  - Her şey yalnızca "kontrast tercihi yok" ve "zorunlu renk yok" iken
+ *    uygulanır. Windows'ta bir Kontrast teması açıksa Kristal hiçbir rengi
+ *    değiştirmez, Thunderbird'ün sistem renkleri kalır.
+ *  - Yazı renkleri WCAG 2.2 AA'ya göre hesaplandı (normal yazı ≥ 4.5:1,
+ *    simge ve çerçeve ≥ 3:1). Seçili cam kart, en kötü arka plan ışığı
+ *    hesaba katılarak ölçüldü.
+ */
+
+@media (prefers-contrast: no-preference) and (forced-colors: none) {
+  :root[kristal] {
+    /* Yüzeyler */
+    --k-frame: light-dark(#e2e7ef, #0b0d12);
+    --k-toolbar: light-dark(#ebeef4, #10131a);
+    --k-sidebar: light-dark(#e9edf3, #0f1218);
+    --k-pane: light-dark(#eef1f6, #11141b);
+    --k-card: light-dark(#ffffff, #1a1e28);
+    --k-card-hover: light-dark(#f6f7fb, #202533);
+    --k-raised: light-dark(#ffffff, #232838);
+    --k-sunken: light-dark(#e4e8ef, #161a23);
+    --k-border: light-dark(#d9dee8, #2b3142);
+    --k-border-strong: light-dark(#bfc7d5, #3d465b);
+
+    /* Yazı */
+    --k-text: light-dark(#161a24, #e9ecf3);
+    --k-text-2: light-dark(#4f586b, #a9b1c2);
+    --k-text-glass: light-dark(#161a24, #eef1f7);
+    --k-text-2-glass: light-dark(#4f586b, #cdd3e0);
+    --k-danger: light-dark(#b42323, #ff8080);
+
+    /* Vurgu (aşağıdaki hazır ayarlarla değişir) */
+    --k-accent: light-dark(#3f4fd1, #8f9dff);
+    --k-ambient: light-dark(#0d6f67, #4fd1c5);
+    --k-on-accent: light-dark(#ffffff, #10131b);
+
+    /* Cam tarifi */
+    --k-glass-tint: 12%;
+    --k-sheen-top: rgb(255 255 255 / 0.62);
+    --k-sheen-bottom: rgb(255 255 255 / 0.32);
+    --k-glass-edge: rgb(255 255 255 / 0.95);
+    --k-glass-highlight: rgb(255 255 255 / 0.9);
+    --k-glass-shadow: rgb(22 26 36 / 0.16);
+    --k-ambient-accent: 12%;
+    --k-ambient-second: 8%;
+
+    /* Biçim */
+    --k-radius: 10px;
+    --k-radius-small: 7px;
+    --k-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+    --k-duration: 160ms;
+
+    /* --- Thunderbird değişkenlerini Kristal'e bağla --- */
+    --layout-background-0: var(--k-card);
+    --layout-background-1: var(--k-pane);
+    --layout-background-2: light-dark(#e4e8ef, #1f2431);
+    --layout-background-3: light-dark(#d6dce6, #2a3042);
+    --layout-background-4: light-dark(#c5ccd8, #384056);
+    --layout-color-0: light-dark(#0b0e14, #ffffff);
+    --layout-color-1: var(--k-text);
+    --layout-color-2: var(--k-text-2);
+    --layout-border-0: var(--k-border);
+    --layout-border-1: var(--k-border-strong);
+    --layout-border-2: light-dark(#a7b0c0, #4b556c);
+
+    --color-surface-base: light-dark(#ffffff, #171b24);
+    --color-surface-raised: var(--k-raised);
+    --color-surface-subtle: light-dark(#f3f5f9, #1d2230);
+    --color-surface-lower: var(--k-frame);
+    --color-surface-deep: light-dark(#d6dce6, #2c3244);
+    --color-surface-border: var(--k-border);
+    --color-surface-border-intense: light-dark(#7d8699, #5f6982);
+    --color-text-base: var(--k-text);
+    --color-text-secondary: var(--k-text-2);
+    --color-primary-default: var(--k-accent);
+    --color-primary-hover: color-mix(in srgb, var(--k-accent) 86%, var(--k-text));
+    --color-primary-pressed: color-mix(in srgb, var(--k-accent) 72%, var(--k-text));
+    --color-primary-soft: color-mix(in srgb, var(--k-accent) 14%, var(--k-card));
+    --color-text-highlight: var(--k-accent);
+
+    --selected-item-color: var(--k-accent);
+    --selected-item-text-color: var(--k-on-accent);
+    --sidebar-background-color: var(--k-sidebar);
+    --sidebar-text-color: var(--k-text);
+    --sidebar-border-color: var(--k-border);
+    --toolbar-background-color: var(--k-toolbar);
+    --toolbar-text-color: var(--k-text);
+    --toolbar-field-background-color: var(--k-raised);
+    --toolbar-field-color: var(--k-text);
+    --toolbar-field-border-color: var(--k-border-strong);
+    --toolbar-field-focus-border-color: var(--k-accent);
+    --search-bar-background: var(--k-raised);
+    --search-bar-focus-background: var(--k-raised);
+    --panel-background-color: var(--k-raised);
+    --panel-text-color: var(--k-text);
+    --panel-border-color: var(--k-border-strong);
+    --link-color: var(--k-accent);
+    --tabline-color: var(--k-accent);
+    --focus-outline-color: var(--k-accent);
+
+    &[kristal-accent="teal"] {
+      --k-accent: light-dark(#0d6f67, #4fd1c5);
+      --k-ambient: light-dark(#3f4fd1, #8f9dff);
+    }
+    &[kristal-accent="rose"] {
+      --k-accent: light-dark(#b8245a, #ff8fb1);
+      --k-ambient: light-dark(#3f4fd1, #8f9dff);
+    }
+    &[kristal-accent="amber"] {
+      --k-accent: light-dark(#8f5200, #f2b75b);
+      --k-ambient: light-dark(#b8245a, #ff8fb1);
+    }
+    &[kristal-accent="graphite"] {
+      --k-accent: light-dark(#4a5262, #b6bfce);
+      --k-ambient: light-dark(#3f4fd1, #8f9dff);
+      --k-ambient-accent: 9%;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root[kristal] {
+      --k-glass-tint: 14%;
+      --k-sheen-top: rgb(255 255 255 / 0.07);
+      --k-sheen-bottom: rgb(255 255 255 / 0.02);
+      --k-glass-edge: rgb(255 255 255 / 0.16);
+      --k-glass-highlight: rgb(255 255 255 / 0.14);
+      --k-glass-shadow: rgb(0 0 0 / 0.45);
+      --k-ambient-accent: 12%;
+      --k-ambient-second: 7%;
+    }
+  }
+
+  /* Hareketi azalt tercihinde geçişler kapanır. */
+  @media (prefers-reduced-motion: reduce) {
+    :root[kristal] {
+      --k-duration: 0ms;
+    }
+  }
+}

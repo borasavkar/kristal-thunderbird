@@ -1,0 +1,144 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+:root {
+  color-scheme: light dark;
+  --bg: light-dark(#eef1f6, #11141b);
+  --card: light-dark(#ffffff, #1a1e28);
+  --border: light-dark(#d9dee8, #2b3142);
+  --text: light-dark(#161a24, #e9ecf3);
+  --text-2: light-dark(#4f586b, #a9b1c2);
+  --accent: light-dark(#3f4fd1, #8f9dff);
+  font: message-box;
+  font-size: 1rem;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+main {
+  max-inline-size: 40rem;
+  padding: 24px 16px 32px;
+  margin-inline: auto;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 650;
+  margin: 0 0 4px;
+}
+
+.intro,
+.help,
+.note {
+  color: var(--text-2);
+  line-height: 1.5;
+}
+
+.intro {
+  margin: 0 0 20px;
+}
+
+fieldset {
+  margin: 0 0 16px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background-color: var(--card);
+}
+
+legend {
+  padding-inline: 6px;
+  font-weight: 650;
+}
+
+.help {
+  margin: 6px 0 12px;
+  font-size: 0.92rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-block-size: 32px;
+}
+
+input {
+  inline-size: 18px;
+  block-size: 18px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.swatch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: 36px;
+  padding-inline: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+
+  &:has(input:checked) {
+    border-color: var(--accent);
+    box-shadow: inset 0 0 0 1px var(--accent);
+  }
+
+  &:has(input:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  & input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  & .dot {
+    inline-size: 16px;
+    block-size: 16px;
+    border-radius: 50%;
+    background-color: var(--swatch);
+    box-shadow: inset 0 0 0 1px light-dark(rgb(0 0 0 / 0.2), rgb(255 255 255 / 0.25));
+  }
+
+  &[data-accent="indigo"] { --swatch: light-dark(#3f4fd1, #8f9dff); }
+  &[data-accent="teal"] { --swatch: light-dark(#0d6f67, #4fd1c5); }
+  &[data-accent="rose"] { --swatch: light-dark(#b8245a, #ff8fb1); }
+  &[data-accent="amber"] { --swatch: light-dark(#8f5200, #f2b75b); }
+  &[data-accent="graphite"] { --swatch: light-dark(#4a5262, #b6bfce); }
+}
+
+.note {
+  font-size: 0.92rem;
+  margin-block-start: 20px;
+}
+
+@media (prefers-contrast: more), (forced-colors: active) {
+  :root {
+    --bg: Canvas;
+    --card: Canvas;
+    --border: CanvasText;
+    --text: CanvasText;
+    --text-2: CanvasText;
+    --accent: Highlight;
+  }
+}

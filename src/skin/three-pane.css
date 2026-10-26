@@ -1,0 +1,388 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+/*
+ * Kristal — posta sekmesi (about:3pane): klasör listesi, ileti kartları ve
+ * kartın içindeki Sil düğmesi.
+ *
+ * Kart durumları:
+ *   normal    → düz, mat yüzey
+ *   üzerinde  → biraz aydınlanır, kenar belirginleşir
+ *   seçili    → cam: arka planı tamamen şeffaf, arkadaki ışığı gösterir,
+ *               parlak üst kenar, solda vurgu çubuğu (renge bağlı olmayan
+ *               ikinci işaret)
+ *   odakta    → 2 piksellik vurgu çerçevesi (klavye odağı göstergesi)
+ *   seçili ama liste odakta değil → cam kalır, çerçeve sakinleşir;
+ *               hangi iletiyi okuduğunuz yine görünür.
+ */
+
+@media (prefers-contrast: no-preference) and (forced-colors: none) {
+  :root[kristal] {
+    --tree-view-bg: var(--k-pane);
+    --tree-pane-background: var(--k-pane);
+    --unread-color: var(--k-text);
+    --new-subject-color: var(--k-accent);
+    --new-color: var(--k-accent);
+    --thread-line-color: var(--k-border-strong);
+    --folderpane-unread-count-background: var(--k-accent);
+    --folderpane-unread-count-text: var(--k-on-accent);
+    --folderpane-unread-new-count-background: var(--k-accent);
+    --folderpane-total-count-background: var(--layout-background-3);
+    --folderpane-total-count-text: var(--k-text);
+    --listbox-border-radius: var(--k-radius-small);
+    --k-row-extra: 0px;
+
+    &[kristal-roomy] {
+      /* Eklenti kart yüksekliğine 6 piksel ekler; yarısı üstte, yarısı altta. */
+      --k-row-extra: 3px;
+    }
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Paneller                                                          */
+  /* ---------------------------------------------------------------- */
+
+  :root[kristal] {
+    & #folderPane,
+    & #folderPaneHeaderBar {
+      background-color: var(--k-sidebar);
+    }
+
+    & #threadPane,
+    & #threadPaneHeaderBar,
+    & #quickFilterBarContainer {
+      background-color: var(--k-pane);
+    }
+
+    & #threadPaneHeaderBar {
+      border-block-end: 1px solid var(--k-border);
+    }
+
+    & #threadPaneFolderName {
+      font-weight: 650;
+      color: var(--k-text);
+    }
+
+    & #threadPaneFolderCount,
+    & #threadPaneSelectedCount {
+      color: var(--k-text-2);
+    }
+
+    & #messagePane {
+      background-color: var(--k-pane);
+    }
+  }
+
+  /* Liste arka planındaki yumuşak ışık. Seçili cam kart bu ışığı gösterir. */
+  :root[kristal][kristal-glass] #threadTree[rows="thread-card"] {
+    background-color: var(--k-pane);
+    background-image:
+      radial-gradient(
+        70% 45% at 100% 0%,
+        color-mix(in srgb, var(--k-accent) var(--k-ambient-accent), transparent),
+        transparent 72%
+      ),
+      radial-gradient(
+        60% 40% at 0% 100%,
+        color-mix(in srgb, var(--k-ambient) var(--k-ambient-second), transparent),
+        transparent 72%
+      );
+    background-repeat: no-repeat;
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* İleti kartları                                                    */
+  /* ---------------------------------------------------------------- */
+
+  :root[kristal] #threadTree[rows="thread-card"] {
+    /* Thunderbird'ün kart durum değişkenleri Kristal renklerine bağlanır;
+       odak/seçim mantığı Thunderbird'de kalır. */
+    --tree-card-background-current: var(--k-card-hover);
+    --tree-card-border-hover: var(--k-border-strong);
+    --tree-card-border-focus: var(--k-accent);
+    --tree-card-background-current-unfocused: var(--k-card);
+    --tree-card-background-selected-current-unfocused-hover: var(--k-card-hover);
+    padding-block: 4px;
+
+    & .card-layout > td {
+      padding-block: calc(var(--card-container-padding-block) + var(--k-row-extra));
+      padding-inline: 8px;
+    }
+
+    & .card-layout > td > .card-container {
+      border-radius: var(--k-radius);
+      color: var(--k-text);
+      box-shadow: 0 1px 2px light-dark(rgb(22 26 36 / 0.06), rgb(0 0 0 / 0.25));
+      transition:
+        background-color var(--k-duration) var(--k-ease),
+        border-color var(--k-duration) var(--k-ease),
+        box-shadow var(--k-duration) var(--k-ease),
+        outline-color var(--k-duration) var(--k-ease);
+
+      & .sender,
+      & .subject {
+        color: var(--k-text);
+      }
+
+      & .date {
+        color: var(--k-text-2);
+        opacity: 1;
+        font-variant-numeric: tabular-nums;
+      }
+
+      & .thread-replies,
+      & .replies-icon,
+      & .sort-header-details {
+        color: var(--k-text-2);
+      }
+
+      /* Karttaki küçük düğmeler daha görünür olsun (≥ 3:1). */
+      & .button-star {
+        stroke: color-mix(in srgb, currentColor 60%, transparent);
+      }
+
+      & .tree-button-more {
+        opacity: 0.75;
+      }
+    }
+
+    /* Grup başlıkları (ör. "Bugün", "Dün") kart gibi değil, başlık gibi. */
+    & .card-layout[data-properties~="dummy"]:not(:hover, .selected, .current) > td > .card-container {
+      background-color: transparent;
+      border-color: transparent;
+      box-shadow: none;
+    }
+
+    & .card-layout[data-properties~="dummy"] .subject {
+      color: var(--k-text-2);
+    }
+
+    /* Okunmamış: kalın yazı (Thunderbird) + vurgu renginde nokta. */
+    & .card-layout[data-properties~="unread"] {
+      --read-status-fill: var(--k-accent);
+      --read-status-stroke: var(--k-accent);
+
+      &[data-properties~="new"] {
+        --read-status-stroke: light-dark(#8a5300, #f5c451);
+      }
+    }
+
+    /* --- Seçili kart: cam ------------------------------------------ */
+    & .card-layout.selected > td > .card-container {
+      --k-tint: var(--k-accent);
+      --new-subject-color: var(--k-text-glass);
+      color: var(--k-text-glass);
+      /* Arka plan tamamen şeffaf: kartın arkasındaki liste ışığı görünür.
+         Seçim; çerçeve, sol çubuk ve parlak üst kenarla belli olur. */
+      background-color: transparent;
+      background-image: none;
+      border-color: color-mix(in srgb, var(--k-tint) 45%, var(--k-glass-edge));
+      box-shadow:
+        inset 0 1px 0 var(--k-glass-highlight),
+        0 6px 16px -10px var(--k-glass-shadow);
+      backdrop-filter: blur(18px) saturate(160%);
+
+      & .sender,
+      & .subject {
+        color: var(--k-text-glass);
+      }
+
+      & .date,
+      & .thread-replies,
+      & .replies-icon {
+        color: var(--k-text-2-glass);
+      }
+
+      & .button-star {
+        stroke: color-mix(in srgb, currentColor 75%, transparent);
+      }
+
+      /* Solda vurgu çubuğu: seçimi renkten bağımsız olarak da gösterir. */
+      &::before {
+        content: "";
+        position: absolute;
+        inset-inline-start: -1px;
+        inset-block: 24%;
+        inline-size: 3px;
+        border-radius: 0 3px 3px 0;
+        background-color: var(--k-tint);
+        pointer-events: none;
+      }
+
+      &:dir(rtl)::before {
+        border-radius: 3px 0 0 3px;
+      }
+    }
+
+    & .card-layout.selected:hover > td > .card-container {
+      border-color: color-mix(in srgb, var(--k-tint) 65%, var(--k-glass-edge));
+    }
+
+    & .card-layout.selected[data-properties~="junk"] > td > .card-container {
+      --k-tint: var(--k-danger);
+    }
+
+    /* --- Klavye odağı ------------------------------------------------ */
+    &:focus-within .card-layout.current > td > .card-container {
+      outline: 2px solid var(--k-accent);
+      outline-offset: -2px;
+    }
+
+    &:focus-within .card-layout.current:not(.selected) > td > .card-container {
+      outline-style: dashed;
+    }
+
+    /* --- Liste odakta değilken seçili kart ---------------------------- */
+    &:not(:focus-within) .card-layout.selected > td > .card-container {
+      border-color: color-mix(in srgb, var(--k-tint) 30%, var(--k-border-strong));
+      box-shadow: inset 0 1px 0 var(--k-glass-highlight);
+    }
+  }
+
+  /* Cam kapalıysa (ayar) ya da Windows'ta saydamlık azaltılmışsa: düz renk. */
+  :root[kristal]:not([kristal-glass]) #threadTree[rows="thread-card"] .card-layout.selected > td > .card-container {
+    background-color: color-mix(in srgb, var(--k-tint) 18%, var(--k-card));
+    background-image: none;
+    backdrop-filter: none;
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    :root[kristal] #threadTree[rows="thread-card"] {
+      background-image: none;
+
+      & .card-layout.selected > td > .card-container {
+        background-color: color-mix(in srgb, var(--k-tint) 18%, var(--k-card));
+        background-image: none;
+        backdrop-filter: none;
+      }
+    }
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Karttaki Sil düğmesi                                              */
+  /* ---------------------------------------------------------------- */
+
+  :root[kristal] #threadTree[rows="thread-card"] .card-layout:not([data-properties~="dummy"]) td button.kristal-delete {
+    display: none;
+    place-items: center;
+    box-sizing: border-box;
+    inline-size: 28px;
+    block-size: 28px;
+    min-inline-size: 28px;
+    min-block-size: 28px;
+    /* 28×28 dokunma alanı (WCAG 2.5.8: en az 24×24), ama satır yüksekliği
+       değişmesin diye dikey boşluk eksi kenar boşluğuyla geri alınır. */
+    margin-block: -6px;
+    margin-inline: 2px -4px;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: var(--k-radius-small);
+    background-color: transparent;
+    color: var(--k-text-2);
+    opacity: 1;
+    visibility: hidden;
+    cursor: pointer;
+    transition:
+      background-color var(--k-duration) var(--k-ease),
+      border-color var(--k-duration) var(--k-ease),
+      color var(--k-duration) var(--k-ease),
+      transform var(--k-duration) var(--k-ease);
+
+    &.tree-button-delete {
+      display: grid;
+    }
+
+    & img {
+      display: block;
+      inline-size: 16px;
+      block-size: 16px;
+      margin: 0;
+      /* Tıklama simgeye değil düğmeye gitsin; Thunderbird düğmeye bakıyor. */
+      pointer-events: none;
+    }
+
+    &:hover {
+      color: var(--k-danger);
+      background-color: color-mix(in srgb, var(--k-danger) 14%, transparent);
+      border-color: color-mix(in srgb, var(--k-danger) 45%, transparent);
+    }
+
+    &:active {
+      transform: scale(0.92);
+      background-color: color-mix(in srgb, var(--k-danger) 22%, transparent);
+    }
+  }
+
+  /* IMAP "silindi olarak işaretle" kullanılıyorsa: Geri getir düğmesi. */
+  :root[kristal] #threadTree[rows="thread-card"] .card-layout[data-properties~="imapdeleted"]:not([data-properties~="dummy"]) td button.kristal-delete {
+    &.tree-button-delete {
+      display: none;
+    }
+
+    &.tree-button-restore {
+      display: grid;
+
+      &:hover {
+        color: var(--k-accent);
+        background-color: color-mix(in srgb, var(--k-accent) 14%, transparent);
+        border-color: color-mix(in srgb, var(--k-accent) 45%, transparent);
+      }
+    }
+  }
+
+  /* Ne zaman görünür: seçili kart, odaktaki kart, fareyle üzerine gelinen
+     kart; ya da ayarda "her zaman" seçiliyse her kart. */
+  :root[kristal] #threadTree[rows="thread-card"] .card-layout:is(:hover, .selected, .current) td button.kristal-delete,
+  :root[kristal][kristal-delete="always"] #threadTree[rows="thread-card"] .card-layout td button.kristal-delete {
+    visibility: visible;
+  }
+
+  /* Seçili (cam) kartta düğme de küçük bir cam hap olur. */
+  :root[kristal] #threadTree[rows="thread-card"] .card-layout.selected:not([data-properties~="dummy"]) td button.kristal-delete:not(:hover, :active) {
+    color: var(--k-text-2-glass);
+    background-color: light-dark(rgb(255 255 255 / 0.7), rgb(255 255 255 / 0.06));
+    border-color: light-dark(rgb(22 26 36 / 0.14), rgb(255 255 255 / 0.14));
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Klasör listesi                                                    */
+  /* ---------------------------------------------------------------- */
+
+  :root[kristal] #folderTree {
+    --list-container-background-hover: color-mix(in srgb, var(--k-text) 6%, transparent);
+    --list-container-border-hover: var(--k-border-strong);
+    --list-container-background-selected: color-mix(in srgb, var(--k-accent) 10%, transparent);
+    --list-container-border-selected: var(--k-border-strong);
+    --list-container-background-selected-current: color-mix(in srgb, var(--k-accent) 12%, transparent);
+    --list-container-border-selected-current: var(--k-border-strong);
+    --list-container-background-selected-focused: color-mix(in srgb, var(--k-accent) 14%, transparent);
+    --list-container-border-selected-focused: color-mix(in srgb, var(--k-accent) 50%, transparent);
+    --list-container-background-selected-current-focused: color-mix(in srgb, var(--k-accent) 16%, transparent);
+    --list-container-border-selected-current-focused: var(--k-accent);
+
+    & .container {
+      margin-inline: 6px;
+      border-radius: var(--k-radius-small);
+    }
+
+    & li.selected > .container {
+      color: var(--k-text-glass);
+      background-image: linear-gradient(to bottom, var(--k-sheen-top), var(--k-sheen-bottom));
+      box-shadow: inset 0 1px 0 var(--k-glass-highlight);
+    }
+
+    &:focus-within li.selected.current > .container {
+      outline: 1px solid var(--k-accent);
+      outline-offset: -2px;
+    }
+
+    & .unread-count {
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  :root[kristal]:not([kristal-glass]) #folderTree li.selected > .container {
+    background-image: none;
+  }
+}

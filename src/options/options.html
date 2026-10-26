@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-i18n="optionsTitle">Kristal</title>
+  <link rel="stylesheet" href="options.css">
+  <script src="../common.js" defer></script>
+  <script src="options.js" defer></script>
+</head>
+<body>
+  <main>
+    <h1 data-i18n="optionsTitle">Kristal</h1>
+    <p class="intro" data-i18n="optionsIntro"></p>
+
+    <fieldset>
+      <legend data-i18n="accentLegend"></legend>
+      <p class="help" id="accentHelp" data-i18n="accentHelp"></p>
+      <div class="swatches" role="radiogroup" aria-describedby="accentHelp">
+        <label class="swatch" data-accent="indigo">
+          <input type="radio" name="accent" value="indigo">
+          <span class="dot" aria-hidden="true"></span>
+          <span data-i18n="accentIndigo"></span>
+        </label>
+        <label class="swatch" data-accent="teal">
+          <input type="radio" name="accent" value="teal">
+          <span class="dot" aria-hidden="true"></span>
+          <span data-i18n="accentTeal"></span>
+        </label>
+        <label class="swatch" data-accent="rose">
+          <input type="radio" name="accent" value="rose">
+          <span class="dot" aria-hidden="true"></span>
+          <span data-i18n="accentRose"></span>
+        </label>
+        <label class="swatch" data-accent="amber">
+          <input type="radio" name="accent" value="amber">
+          <span class="dot" aria-hidden="true"></span>
+          <span data-i18n="accentAmber"></span>
+        </label>
+        <label class="swatch" data-accent="graphite">
+          <input type="radio" name="accent" value="graphite">
+          <span class="dot" aria-hidden="true"></span>
+          <span data-i18n="accentGraphite"></span>
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend data-i18n="deleteLegend"></legend>
+      <label class="row">
+        <input type="radio" name="deleteButton" value="hover">
+        <span data-i18n="deleteHover"></span>
+      </label>
+      <label class="row">
+        <input type="radio" name="deleteButton" value="always">
+        <span data-i18n="deleteAlways"></span>
+      </label>
+      <p class="help" data-i18n="deleteHelp"></p>
+    </fieldset>
+
+    <fieldset>
+      <label class="row">
+        <input type="checkbox" name="glass" aria-describedby="glassHelp">
+        <span data-i18n="glassLabel"></span>
+      </label>
+      <p class="help" id="glassHelp" data-i18n="glassHelp"></p>
+      <label class="row">
+        <input type="checkbox" name="spacing" aria-describedby="spacingHelp">
+        <span data-i18n="spacingLabel"></span>
+      </label>
+      <p class="help" id="spacingHelp" data-i18n="spacingHelp"></p>
+    </fieldset>
+
+    <p class="note" data-i18n="a11yNote"></p>
+  </main>
+</body>
+</html>

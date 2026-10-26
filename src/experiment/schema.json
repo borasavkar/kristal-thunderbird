@@ -1,0 +1,46 @@
+[
+  {
+    "namespace": "kristal",
+    "description": "Applies the Kristal look to the Thunderbird main window, the 3-pane tab and the message header.",
+    "functions": [
+      {
+        "name": "configure",
+        "type": "function",
+        "async": true,
+        "description": "Updates the appearance options in every open window.",
+        "parameters": [
+          {
+            "name": "options",
+            "type": "object",
+            "properties": {
+              "accent": {
+                "type": "string",
+                "enum": ["indigo", "teal", "rose", "amber", "graphite"],
+                "optional": true
+              },
+              "deleteButton": {
+                "type": "string",
+                "enum": ["hover", "always"],
+                "optional": true
+              },
+              "glass": { "type": "boolean", "optional": true },
+              "spacing": {
+                "type": "string",
+                "enum": ["comfortable", "default"],
+                "optional": true
+              },
+              "strings": {
+                "type": "object",
+                "optional": true,
+                "properties": {
+                  "delete": { "type": "string" },
+                  "restore": { "type": "string" }
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

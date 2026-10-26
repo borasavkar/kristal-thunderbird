@@ -1,0 +1,37 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+/*
+ * Kristal — ileti başlığı (about:message). İletinin gövdesi (e-postanın
+ * kendisi) değiştirilmez; yalnızca üstteki başlık alanı düzenlenir.
+ */
+
+@media (prefers-contrast: no-preference) and (forced-colors: none) {
+  :root[kristal] {
+    /* Thunderbird alan etiketlerini %70 saydam yazar; Kristal tam renkli
+       ikincil yazı rengi kullanır (kontrast ≥ 4.5:1). */
+    --message-header-label-opacity: 1;
+
+    & #messagepanebox {
+      background-color: var(--k-pane);
+      color: var(--k-text);
+    }
+
+    & #messageHeader {
+      background-color: var(--k-card);
+      border-block-end: 1px solid var(--k-border);
+    }
+
+    & .message-header-label {
+      color: var(--k-text-2);
+    }
+
+    & #expandedsubjectBox {
+      font-size: 1.15rem;
+      font-weight: 650;
+      line-height: 1.35;
+      color: var(--k-text);
+    }
+  }
+}

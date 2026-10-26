@@ -1,0 +1,20 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="face" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#b9c3ff"/>
+      <stop offset="0.55" stop-color="#6f7ff0"/>
+      <stop offset="1" stop-color="#3f4fd1"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+  <path d="M18 10h28l12 14-26 32L6 24z" fill="url(#face)"/>
+  <path d="M6 24h52M18 10l6 14 8 32 8-32 6-14M24 24l8-14 8 14" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M18 10h28l-6 14H24z" fill="url(#shine)"/>
+  <path d="M18 10h28l12 14-26 32L6 24z" fill="none" stroke="#2b38a8" stroke-width="2" stroke-linejoin="round"/>
+</svg>

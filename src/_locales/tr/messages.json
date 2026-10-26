@@ -1,0 +1,68 @@
+{
+  "extensionName": {
+    "message": "Kristal"
+  },
+  "extensionDescription": {
+    "message": "Okumayı, ileti seçmeyi ve silmeyi kolaylaştıran sade, erişilebilir görünüm. Seçili kart cam gibi parlar; her kartın içinde Sil düğmesi vardır."
+  },
+  "deleteMessage": {
+    "message": "Bu iletiyi sil (Delete tuşu)"
+  },
+  "restoreMessage": {
+    "message": "Bu iletiyi geri getir"
+  },
+  "optionsTitle": {
+    "message": "Kristal ayarları"
+  },
+  "optionsIntro": {
+    "message": "Değişiklikler hemen uygulanır; Thunderbird'ü yeniden başlatmanız gerekmez."
+  },
+  "accentLegend": {
+    "message": "Vurgu rengi"
+  },
+  "accentHelp": {
+    "message": "Seçili kartın kenarı, okunmamış iletinin noktası ve odak çerçevesi bu renkte olur. Hepsi açık ve koyu modda okunabilirlik eşiğini geçer."
+  },
+  "accentIndigo": {
+    "message": "Çivit"
+  },
+  "accentTeal": {
+    "message": "Zümrüt"
+  },
+  "accentRose": {
+    "message": "Gül"
+  },
+  "accentAmber": {
+    "message": "Kehribar"
+  },
+  "accentGraphite": {
+    "message": "Grafit"
+  },
+  "deleteLegend": {
+    "message": "Karttaki Sil düğmesi"
+  },
+  "deleteHover": {
+    "message": "Seçili kartta ve fareyle üzerine gelince göster"
+  },
+  "deleteAlways": {
+    "message": "Her kartta her zaman göster"
+  },
+  "deleteHelp": {
+    "message": "Silinen ileti Thunderbird'ün kendi Sil komutuyla Çöp kutusuna taşınır; Ctrl+Z ile geri alınabilir. Klavyede Delete tuşu da aynı işi yapar."
+  },
+  "glassLabel": {
+    "message": "Seçili kartta cam efekti ve arka plan ışığı"
+  },
+  "glassHelp": {
+    "message": "Kapatırsanız seçili kart düz, mat bir renkle gösterilir."
+  },
+  "spacingLabel": {
+    "message": "Kartlar arasında rahat boşluk"
+  },
+  "spacingHelp": {
+    "message": "Kapatırsanız Thunderbird'ün varsayılan kart aralığı kullanılır; ekrana daha çok ileti sığar."
+  },
+  "a11yNote": {
+    "message": "Windows'ta yüksek karşıtlık (Kontrast temaları) açıksa Kristal kendini geri çeker ve Thunderbird'ün erişilebilir renkleri kullanılır. \"Animasyonları azalt\" ayarı açıksa geçiş efektleri kapanır."
+  }
+}

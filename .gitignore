@@ -1,0 +1,3 @@
+# Built packages are attached to releases, not committed.
+dist/
+__pycache__/

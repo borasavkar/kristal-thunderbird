@@ -1,0 +1,68 @@
+{
+  "extensionName": {
+    "message": "Kristal"
+  },
+  "extensionDescription": {
+    "message": "A calm, accessible look that makes reading, selecting and deleting mail easier. The selected card turns into glass, and every card has its own Delete button."
+  },
+  "deleteMessage": {
+    "message": "Delete this message (Delete key)"
+  },
+  "restoreMessage": {
+    "message": "Restore this message"
+  },
+  "optionsTitle": {
+    "message": "Kristal settings"
+  },
+  "optionsIntro": {
+    "message": "Changes apply immediately; there is no need to restart Thunderbird."
+  },
+  "accentLegend": {
+    "message": "Accent color"
+  },
+  "accentHelp": {
+    "message": "Used for the edge of the selected card, the unread dot and the focus ring. Every option meets the contrast threshold in light and dark mode."
+  },
+  "accentIndigo": {
+    "message": "Indigo"
+  },
+  "accentTeal": {
+    "message": "Teal"
+  },
+  "accentRose": {
+    "message": "Rose"
+  },
+  "accentAmber": {
+    "message": "Amber"
+  },
+  "accentGraphite": {
+    "message": "Graphite"
+  },
+  "deleteLegend": {
+    "message": "Delete button on cards"
+  },
+  "deleteHover": {
+    "message": "Show on the selected card and on mouse hover"
+  },
+  "deleteAlways": {
+    "message": "Always show on every card"
+  },
+  "deleteHelp": {
+    "message": "The message is moved to the Trash with Thunderbird's own Delete command and can be undone with Ctrl+Z. The Delete key does the same."
+  },
+  "glassLabel": {
+    "message": "Glass effect and ambient light on the selected card"
+  },
+  "glassHelp": {
+    "message": "When turned off, the selected card uses a flat, solid color."
+  },
+  "spacingLabel": {
+    "message": "Comfortable spacing between cards"
+  },
+  "spacingHelp": {
+    "message": "When turned off, Thunderbird's default card spacing is used and more messages fit on screen."
+  },
+  "a11yNote": {
+    "message": "When a Windows contrast theme is active, Kristal steps aside and Thunderbird's accessible colors are used. When \"reduce motion\" is on, transitions are turned off."
+  }
+}
