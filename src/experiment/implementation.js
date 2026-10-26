@@ -8,10 +8,11 @@
  * Bu deneysel API (Experiment) üç şey yapar:
  *  1. Ana pencereye, posta sekmesine (about:3pane) ve ileti başlığına
  *     (about:message) Kristal stil dosyalarını yükler.
- *  2. Kart görünümündeki her ileti kartına bir "Sil" düğmesi ekler. Düğme
- *     Thunderbird'ün kendi "tree-button-request-delete" yolunu kullanır;
- *     yani silme işlemi Thunderbird'ün liste görünümündeki sil sütunuyla
- *     birebir aynıdır (ileti Çöp kutusuna taşınır, Ctrl+Z ile geri alınır).
+ *  2. Kart görünümündeki her ileti kartına "Spam" ve "Sil" düğmeleri ekler,
+ *     yıldızı kartın başına (okunmamış noktasının altına) taşır. Düğmeler
+ *     Thunderbird'ün kendi "tree-button-spam" ve "tree-button-request-delete"
+ *     yollarını kullanır; yani işlem Thunderbird'ün liste görünümündeki spam
+ *     ve sil sütunlarıyla birebir aynıdır.
  *  3. Kartlar arasına biraz nefes payı bırakmak için kart yüksekliğine
  *     birkaç piksel ekler. Thunderbird'ün kodu değiştirilmez; yalnızca
  *     Thunderbird yüksekliği hesapladıktan sonra üzerine eklenir.
@@ -46,6 +47,8 @@ const DEFAULTS = Object.freeze({
   strings: Object.freeze({
     delete: "Delete this message (Delete key)",
     restore: "Restore this message",
+    spam: "Mark as junk (J key)",
+    notSpam: "Mark as not junk (Shift+J)",
   }),
 });
 
@@ -74,10 +77,12 @@ function normalize(options = {}) {
     deleteButton: options.deleteButton == "always" ? "always" : "hover",
     glass: options.glass ?? DEFAULTS.glass,
     spacing: options.spacing == "default" ? "default" : "comfortable",
-    strings: {
-      delete: options.strings?.delete || DEFAULTS.strings.delete,
-      restore: options.strings?.restore || DEFAULTS.strings.restore,
-    },
+    strings: Object.fromEntries(
+      Object.keys(DEFAULTS.strings).map(key => [
+        key,
+        options.strings?.[key] || DEFAULTS.strings[key],
+      ])
+    ),
   };
 }
 
@@ -278,23 +283,36 @@ class KristalController {
 
   // --- about:3pane -------------------------------------------------------
 
+  /**
+   * Calls `callback` for the card template (so cards created from now on are
+   * covered) and for every card that already exists.
+   */
+  forEachCard(doc, callback) {
+    const template = doc.getElementById("threadPaneCardTemplate");
+    if (template) {
+      callback(template.content);
+    }
+    for (const row of doc.querySelectorAll("#threadTree tr.card-layout")) {
+      callback(row);
+    }
+  }
+
   setUpThreePane(doc) {
     const win = doc.defaultView;
 
-    // Cards created from now on get the buttons from the template...
-    const template = doc.getElementById("threadPaneCardTemplate");
-    const templateInfo = template?.content.querySelector(".thread-card-icon-info");
-    if (templateInfo && !templateInfo.querySelector(".kristal-delete")) {
-      templateInfo.append(this.createDeleteButtons(doc));
-    }
-    // ...and cards that already exist get them here.
-    for (const info of doc.querySelectorAll(
-      "#threadTree tr.card-layout .thread-card-icon-info"
-    )) {
-      if (!info.querySelector(".kristal-delete")) {
-        info.append(this.createDeleteButtons(doc));
+    this.forEachCard(doc, card => {
+      // The star moves to the start of the card, under the unread dot.
+      const star = card.querySelector(".thread-card-icon-info .button-star");
+      const column = card.querySelector(".read-status-column");
+      if (star && column) {
+        column.append(star);
       }
-    }
+      // Spam and Delete go to the end of the card, side by side.
+      const info = card.querySelector(".thread-card-icon-info");
+      if (info && !info.querySelector(".kristal-action")) {
+        info.append(this.createActionButtons(doc));
+      }
+    });
 
     win.addEventListener("uidensitychange", this);
     win.addEventListener("uifontsizechange", this);
@@ -306,13 +324,17 @@ class KristalController {
     win.removeEventListener("uidensitychange", this);
     win.removeEventListener("uifontsizechange", this);
 
-    const template = doc.getElementById("threadPaneCardTemplate");
-    for (const button of [
-      ...(template?.content.querySelectorAll(".kristal-delete") ?? []),
-      ...doc.querySelectorAll(".kristal-delete"),
-    ]) {
-      button.remove();
-    }
+    this.forEachCard(doc, card => {
+      for (const button of card.querySelectorAll(".kristal-action")) {
+        button.remove();
+      }
+      // Thunderbird's own order: ..., spam, star.
+      const star = card.querySelector(".read-status-column .button-star");
+      const info = card.querySelector(".thread-card-icon-info");
+      if (star && info) {
+        info.append(star);
+      }
+    });
 
     const cardClass = win.customElements?.get("thread-card");
     const state = this.rowHeights.get(win);
@@ -323,20 +345,24 @@ class KristalController {
     this.rowHeights.delete(win);
   }
 
-  createDeleteButtons(doc) {
+  createActionButtons(doc) {
     const fragment = doc.createDocumentFragment();
+    // The tree-button-* classes are the ones Thunderbird's tree view listens
+    // for: "tree-button-spam" toggles junk and "tree-button-request-delete"
+    // deletes (or restores) exactly this row's message. Each action has two
+    // buttons; the stylesheet shows the one that fits the message's state.
     for (const [className, key] of [
-      ["tree-button-delete", "delete"],
-      ["tree-button-restore", "restore"],
+      ["tree-button-spam kristal-spam kristal-spam-mark", "spam"],
+      ["tree-button-spam kristal-spam kristal-spam-unmark", "notSpam"],
+      ["tree-button-delete tree-button-request-delete kristal-delete", "delete"],
+      ["tree-button-restore tree-button-request-delete kristal-delete", "restore"],
     ]) {
       const button = doc.createElementNS(XHTML_NS, "button");
       button.setAttribute("type", "button");
-      // "tree-button-request-delete" is the class Thunderbird's tree view
-      // listens for; it deletes (or restores) exactly this row's message.
-      button.className = `button-flat ${className} tree-button-request-delete kristal-delete`;
+      button.className = `button-flat ${className} kristal-action`;
       button.setAttribute("tabindex", "-1");
-      // Keyboard and screen reader users use the Delete key, exactly like
-      // Thunderbird's own row buttons (star, spam) which are hidden too.
+      // Keyboard and screen reader users use the J / Shift+J and Delete keys,
+      // exactly like Thunderbird's own row buttons, which are hidden too.
       button.setAttribute("aria-hidden", "true");
       button.dataset.kristalString = key;
       button.title = this.options.strings[key];
@@ -350,13 +376,11 @@ class KristalController {
   }
 
   updateButtonStrings(doc) {
-    const template = doc.getElementById("threadPaneCardTemplate");
-    for (const button of [
-      ...(template?.content.querySelectorAll(".kristal-delete") ?? []),
-      ...doc.querySelectorAll(".kristal-delete"),
-    ]) {
-      button.title = this.options.strings[button.dataset.kristalString] ?? "";
-    }
+    this.forEachCard(doc, card => {
+      for (const button of card.querySelectorAll(".kristal-action")) {
+        button.title = this.options.strings[button.dataset.kristalString] ?? "";
+      }
+    });
   }
 
   /**

@@ -26,6 +26,8 @@ async function applyKristalOptions() {
     strings: {
       delete: browser.i18n.getMessage("deleteMessage"),
       restore: browser.i18n.getMessage("restoreMessage"),
+      spam: browser.i18n.getMessage("spamMessage"),
+      notSpam: browser.i18n.getMessage("notSpamMessage"),
     },
   });
 }

@@ -11,6 +11,12 @@
   "restoreMessage": {
     "message": "Bu iletiyi geri getir"
   },
+  "spamMessage": {
+    "message": "Spam olarak işaretle (J tuşu)"
+  },
+  "notSpamMessage": {
+    "message": "Spam değil olarak işaretle (Shift+J)"
+  },
   "optionsTitle": {
     "message": "Kristal ayarları"
   },
@@ -39,7 +45,7 @@
     "message": "Grafit"
   },
   "deleteLegend": {
-    "message": "Karttaki Sil düğmesi"
+    "message": "Karttaki Spam ve Sil düğmeleri"
   },
   "deleteHover": {
     "message": "Seçili kartta ve fareyle üzerine gelince göster"
@@ -48,7 +54,7 @@
     "message": "Her kartta her zaman göster"
   },
   "deleteHelp": {
-    "message": "Silinen ileti Thunderbird'ün kendi Sil komutuyla Çöp kutusuna taşınır; Ctrl+Z ile geri alınabilir. Klavyede Delete tuşu da aynı işi yapar."
+    "message": "Sil, iletiyi Thunderbird'ün kendi Sil komutuyla Çöp kutusuna taşır (Delete tuşu da aynı işi yapar). Spam, iletiyi spam olarak işaretler (J tuşu); spam işaretli iletide aynı düğme işareti kaldırır (Shift+J). İletinin Spam klasörüne taşınıp taşınmayacağı Thunderbird'ün Gizlilik ve Güvenlik ayarlarına bağlıdır."
   },
   "glassLabel": {
     "message": "Seçili kartta cam efekti ve arka plan ışığı"

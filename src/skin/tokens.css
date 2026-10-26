@@ -38,6 +38,7 @@
     --k-text-glass: light-dark(#161a24, #eef1f7);
     --k-text-2-glass: light-dark(#4f586b, #cdd3e0);
     --k-danger: light-dark(#b42323, #ff8080);
+    --k-warn: light-dark(#8a5300, #f5c451);
 
     /* Vurgu (aşağıdaki hazır ayarlarla değişir) */
     --k-accent: light-dark(#3f4fd1, #8f9dff);

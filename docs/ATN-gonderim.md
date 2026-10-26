@@ -22,7 +22,7 @@ anlatır.
    bölümünü kullanın. Lisans olarak **Mozilla Public License 2.0** seçin.
 6. **İnceleyiciye not yazın.** Aşağıdaki "İnceleyici notu" metnini yapıştırın.
 7. **Ekran görüntüsü ekleyin.** Koyu ve açık modda seçili bir kart, karttaki
-   Sil düğmesi ve ayarlar sayfası.
+   Spam ve Sil düğmeleri ve ayarlar sayfası.
 
 ## Eklenti sayfası metinleri
 
@@ -35,12 +35,12 @@ anlatır.
 **Kısa açıklama (English):**
 
 > A calm, accessible look for Thunderbird: the selected message card turns
-> into transparent glass, and every card gets its own Delete button.
+> into transparent glass, and every card gets its own Junk and Delete buttons.
 
 **Kısa açıklama (Türkçe):**
 
 > Thunderbird için sade ve erişilebilir görünüm: seçilen posta kartı şeffaf
-> cama dönüşür, her kartın içinde kendi Sil düğmesi vardır.
+> cama dönüşür, her kartın içinde kendi Spam ve Sil düğmeleri vardır.
 
 **Uzun açıklama (English):**
 
@@ -49,15 +49,18 @@ anlatır.
 > - The selected message card gets a transparent glass background, an accent
 >   ring and a side bar, so you always see which message is open. The
 >   selected tab gets the same look.
-> - Every card has its own Delete button. It shows on the selected card and on
->   mouse hover, or on every card if you prefer. It uses Thunderbird's own
->   delete command, so the message goes to the Trash as usual. The Delete key
->   keeps working.
+> - Every card has its own Junk and Delete buttons, side by side. They show on
+>   the selected card and on mouse hover, or on every card if you prefer. They
+>   use Thunderbird's own commands: Delete moves the message to the Trash as
+>   usual, Junk marks it as junk (and on a junk message removes the mark). The
+>   Delete, J and Shift+J keys keep working.
+> - The star sits at the start of the card, under the unread dot.
 > - A calm palette for light and dark mode with five accent colors.
 >
 > Accessibility: text colors meet WCAG 2.2 AA contrast (4.5:1 for text, 3:1
 > for icons and focus rings), selection is shown by shape as well as color,
-> the Delete button has a 28×28 px target, and Kristal steps aside when a
+> the Junk and Delete buttons have 28×28 px targets and the star 24×24 px,
+> and Kristal steps aside when a
 > Windows contrast theme is active. Reduced motion and reduced transparency
 > settings are respected.
 >
@@ -73,15 +76,19 @@ anlatır.
 > - Seçilen posta kartının arka planı şeffaf cama dönüşür. Vurgu renginde
 >   çerçeve ve soldaki çubuk sayesinde hangi iletinin açık olduğu hep
 >   görünür. Seçili sekme de aynı görünümü alır.
-> - Her kartın kendi Sil düğmesi vardır. Seçili kartta ve fareyle üzerine
->   gelince görünür; isterseniz her kartta her zaman görünür. Thunderbird'ün
->   kendi silme komutunu kullanır, yani ileti her zamanki gibi Çöp kutusuna
->   gider. Delete tuşu da çalışmaya devam eder.
+> - Her kartın yan yana duran kendi Spam ve Sil düğmeleri vardır. Seçili
+>   kartta ve fareyle üzerine gelince görünürler; isterseniz her kartta her
+>   zaman görünürler. Thunderbird'ün kendi komutlarını kullanırlar: Sil iletiyi
+>   her zamanki gibi Çöp kutusuna taşır, Spam iletiyi spam olarak işaretler
+>   (spam işaretli iletide işareti kaldırır). Delete, J ve Shift+J tuşları da
+>   çalışmaya devam eder.
+> - Yıldız kartın başında, okunmamış noktasının altındadır.
 > - Açık ve koyu mod için sade bir palet, beş vurgu rengi.
 >
 > Erişilebilirlik: yazı renkleri WCAG 2.2 AA kontrast eşiğini geçer (yazıda
 > 4.5:1, simge ve odak çerçevesinde 3:1). Seçim yalnızca renkle değil şekille
-> de gösterilir. Sil düğmesinin tıklama alanı 28×28 pikseldir. Windows'ta
+> de gösterilir. Spam ve Sil düğmelerinin tıklama alanı 28×28, yıldızınki
+> 24×24 pikseldir. Windows'ta
 > Kontrast teması açıkken Kristal renkleri değiştirmez. Hareketi ve
 > saydamlığı azaltma ayarlarına uyar.
 >
@@ -101,11 +108,13 @@ anlatır.
 >   `windowUtils.loadSheetUsingURIString(..., AUTHOR_SHEET)`. New documents
 >   are caught with the `document-element-inserted` observer. All sheets are
 >   removed on shutdown.
-> - Adds a Delete/Restore button with the class `tree-button-request-delete`
->   to `#threadPaneCardTemplate` and to existing card rows. The click is
->   handled by Thunderbird's own tree view `request-delete` handler
->   (`gDBView.applyCommandToIndices(deleteMsg)`); the add-on never deletes
->   messages itself.
+> - Adds Junk/Not junk buttons (class `tree-button-spam`) and Delete/Restore
+>   buttons (class `tree-button-request-delete`) to `#threadPaneCardTemplate`
+>   and to existing card rows, and moves the card's existing star button into
+>   its `.read-status-column`. Clicks are handled by Thunderbird's own tree
+>   view handlers (`toggle-spam`, `request-delete`, `toggle-flag`, which call
+>   `gDBView.applyCommandToIndices`); the add-on never changes messages
+>   itself. On shutdown the buttons are removed and the star is moved back.
 > - Adds 6 px to `ThreadCard.ROW_HEIGHT` after Thunderbird recalculates it
 >   (`uidensitychange` / `uifontsizechange` events and observers for
 >   `mail.threadpane.cardsview.rowcount` and `mail.threadpane.listview`), then

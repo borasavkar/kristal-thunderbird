@@ -11,6 +11,12 @@
   "restoreMessage": {
     "message": "Restore this message"
   },
+  "spamMessage": {
+    "message": "Mark as junk (J key)"
+  },
+  "notSpamMessage": {
+    "message": "Mark as not junk (Shift+J)"
+  },
   "optionsTitle": {
     "message": "Kristal settings"
   },
@@ -39,7 +45,7 @@
     "message": "Graphite"
   },
   "deleteLegend": {
-    "message": "Delete button on cards"
+    "message": "Junk and Delete buttons on cards"
   },
   "deleteHover": {
     "message": "Show on the selected card and on mouse hover"
@@ -48,7 +54,7 @@
     "message": "Always show on every card"
   },
   "deleteHelp": {
-    "message": "The message is moved to the Trash with Thunderbird's own Delete command and can be undone with Ctrl+Z. The Delete key does the same."
+    "message": "Delete moves the message to the Trash with Thunderbird's own Delete command (the Delete key does the same). Junk marks the message as junk (J key); on a junk message the same button removes the mark (Shift+J). Whether junk is also moved to the Junk folder depends on Thunderbird's Privacy & Security settings."
   },
   "glassLabel": {
     "message": "Glass effect and ambient light on the selected card"

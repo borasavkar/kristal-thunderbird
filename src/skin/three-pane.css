@@ -147,6 +147,41 @@
       }
     }
 
+    /* Kartın başı: üstte okunmamış noktası, altında yıldız. Her biri yanındaki
+       yazı satırıyla (gönderen, konu) aynı hizada durur. Okunmuş iletide nokta
+       görünmez ama yeri korunur; yıldız yerinden oynamaz. */
+    & .card-layout:not([data-properties~="dummy"]) > td > .card-container {
+      & .read-status-column {
+        display: grid;
+        grid-auto-rows: 1.5rem;
+        place-items: center;
+        inline-size: 28px;
+      }
+
+      & .read-status {
+        display: block;
+      }
+
+      & .read-status-column .button-star {
+        /* 24×24 tıklama alanı (WCAG 2.5.8), simge 16 piksel. */
+        inline-size: 24px;
+        block-size: 24px;
+        min-inline-size: 24px;
+        min-block-size: 24px;
+        margin: 0;
+        border-radius: var(--k-radius-small);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 16px;
+        opacity: 1;
+        cursor: pointer;
+
+        &:hover {
+          background-color: color-mix(in srgb, currentColor 10%, transparent);
+        }
+      }
+    }
+
     /* Grup başlıkları (ör. "Bugün", "Dün") kart gibi değil, başlık gibi. */
     & .card-layout[data-properties~="dummy"]:not(:hover, .selected, .current) > td > .card-container {
       background-color: transparent;
@@ -260,10 +295,17 @@
   }
 
   /* ---------------------------------------------------------------- */
-  /* Karttaki Sil düğmesi                                              */
+  /* Karttaki Spam ve Sil düğmeleri                                    */
   /* ---------------------------------------------------------------- */
 
-  :root[kristal] #threadTree[rows="thread-card"] .card-layout:not([data-properties~="dummy"]) td button.kristal-delete {
+  /* Thunderbird'ün kendi spam düğmesi yalnızca spam iletide görünür; onun
+     yerini Kristal'in düğmesi alır (aynı Thunderbird komutunu çağırır). */
+  :root[kristal] #threadTree[rows="thread-card"] .card-layout td button.button-spam:not(.kristal-action) {
+    display: none;
+  }
+
+  :root[kristal] #threadTree[rows="thread-card"] .card-layout:not([data-properties~="dummy"]) td button.kristal-action {
+    --k-action-color: var(--k-danger);
     display: none;
     place-items: center;
     box-sizing: border-box;
@@ -289,10 +331,6 @@
       color var(--k-duration) var(--k-ease),
       transform var(--k-duration) var(--k-ease);
 
-    &.tree-button-delete {
-      display: grid;
-    }
-
     & img {
       display: block;
       inline-size: 16px;
@@ -302,44 +340,62 @@
       pointer-events: none;
     }
 
+    &.kristal-spam {
+      --k-action-color: var(--k-warn);
+
+      & img {
+        content: var(--icon-spam);
+      }
+    }
+
     &:hover {
-      color: var(--k-danger);
-      background-color: color-mix(in srgb, var(--k-danger) 14%, transparent);
-      border-color: color-mix(in srgb, var(--k-danger) 45%, transparent);
+      color: var(--k-action-color);
+      background-color: color-mix(in srgb, var(--k-action-color) 14%, transparent);
+      border-color: color-mix(in srgb, var(--k-action-color) 45%, transparent);
     }
 
     &:active {
       transform: scale(0.92);
-      background-color: color-mix(in srgb, var(--k-danger) 22%, transparent);
+      background-color: color-mix(in srgb, var(--k-action-color) 22%, transparent);
     }
   }
 
-  /* IMAP "silindi olarak işaretle" kullanılıyorsa: Geri getir düğmesi. */
-  :root[kristal] #threadTree[rows="thread-card"] .card-layout[data-properties~="imapdeleted"]:not([data-properties~="dummy"]) td button.kristal-delete {
-    &.tree-button-delete {
-      display: none;
+  /* Hangi düğme görünür: iletinin durumuna göre biri. Spam iletide "Spam
+     değil" düğmesi; IMAP "silindi olarak işaretle" kullanılıyorsa "Geri getir". */
+  :root[kristal] #threadTree[rows="thread-card"] .card-layout:not([data-properties~="dummy"]) td button.kristal-action {
+    .card-layout:not([data-properties~="junk"]) &.kristal-spam-mark,
+    .card-layout[data-properties~="junk"] &.kristal-spam-unmark,
+    .card-layout:not([data-properties~="imapdeleted"]) &.tree-button-delete,
+    .card-layout[data-properties~="imapdeleted"] &.tree-button-restore {
+      display: grid;
     }
 
-    &.tree-button-restore {
-      display: grid;
+    &.tree-button-restore,
+    &.kristal-spam-unmark {
+      --k-action-color: var(--k-accent);
+    }
 
-      &:hover {
-        color: var(--k-accent);
-        background-color: color-mix(in srgb, var(--k-accent) 14%, transparent);
-        border-color: color-mix(in srgb, var(--k-accent) 45%, transparent);
+    /* Spam iletide düğme, Thunderbird'deki gibi kırmızı spam simgesiyle
+       durumu da gösterir; bu yüzden her zaman görünür. */
+    &.kristal-spam-unmark {
+      visibility: visible;
+
+      & img {
+        fill: var(--thread-pane-spam-fill);
+        stroke: var(--thread-pane-spam-stroke);
       }
     }
   }
 
   /* Ne zaman görünür: seçili kart, odaktaki kart, fareyle üzerine gelinen
      kart; ya da ayarda "her zaman" seçiliyse her kart. */
-  :root[kristal] #threadTree[rows="thread-card"] .card-layout:is(:hover, .selected, .current) td button.kristal-delete,
-  :root[kristal][kristal-delete="always"] #threadTree[rows="thread-card"] .card-layout td button.kristal-delete {
+  :root[kristal] #threadTree[rows="thread-card"] .card-layout:is(:hover, .selected, .current) td button.kristal-action,
+  :root[kristal][kristal-delete="always"] #threadTree[rows="thread-card"] .card-layout td button.kristal-action {
     visibility: visible;
   }
 
-  /* Seçili (cam) kartta düğme de küçük bir cam hap olur. */
-  :root[kristal] #threadTree[rows="thread-card"] .card-layout.selected:not([data-properties~="dummy"]) td button.kristal-delete:not(:hover, :active) {
+  /* Seçili (cam) kartta düğmeler de küçük birer cam hap olur. */
+  :root[kristal] #threadTree[rows="thread-card"] .card-layout.selected:not([data-properties~="dummy"]) td button.kristal-action:not(:hover, :active) {
     color: var(--k-text-2-glass);
     background-color: light-dark(rgb(255 255 255 / 0.7), rgb(255 255 255 / 0.06));
     border-color: light-dark(rgb(22 26 36 / 0.14), rgb(255 255 255 / 0.14));

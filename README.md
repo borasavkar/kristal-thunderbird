@@ -7,8 +7,11 @@ Thunderbird görünümü.
   listenin hafif ışığı görünür. Seçim; vurgu renginde çerçeve, parlak üst
   kenar ve solda ince bir vurgu çubuğuyla belli olur. Firefox'taki seçili
   sekme etkisine benzer.
-- Her kartın içinde **Sil** düğmesi vardır. Seçili kartta ve fareyle
-  üzerine gelince görünür (ayarlardan "her zaman" da yapılabilir).
+- Her kartın sağ altında yan yana **Spam** ve **Sil** düğmeleri vardır.
+  Seçili kartta ve fareyle üzerine gelince görünürler (ayarlardan "her
+  zaman" da yapılabilir).
+- **Yıldız** kartın başındadır: okunmamış noktasının altında, konu satırının
+  hizasında.
 - Seçili sekme de aynı cam görünümündedir.
 - Koyu ve açık mod Windows ayarını kendiliğinden izler.
 
@@ -33,8 +36,9 @@ tamamı `src` klasöründedir.
 
 1. Thunderbird'de sağ üstteki **☰** menüsünden **Eklentiler ve temalar**'ı açın.
 2. **Uzantılar** sayfasında dişli (⚙) simgesine, sonra **Dosyadan eklenti yükle…**'ye tıklayın.
-3. `dist\kristal-1.0.1.xpi` dosyasını seçin ve **Ekle** deyin. (Daha önce
-   1.0.0'ı kurduysanız aynı yoldan 1.0.1'i kurmanız yeterli; üzerine güncellenir.)
+3. `dist\kristal-1.0.2.xpi` dosyasını seçin ve **Ekle** deyin. (Daha önceki
+   bir sürümü kurduysanız aynı yoldan yenisini kurmanız yeterli; üzerine
+   güncellenir.)
 
 En iyi sonuç için:
 
@@ -52,17 +56,28 @@ En iyi sonuç için:
 uygulanır.
 
 - **Vurgu rengi:** Çivit (varsayılan), Zümrüt, Gül, Kehribar, Grafit.
-- **Karttaki Sil düğmesi:** seçili kartta ve fareyle üzerine gelince / her zaman.
+- **Karttaki Spam ve Sil düğmeleri:** seçili kartta ve fareyle üzerine gelince / her zaman.
 - **Cam efekti ve arka plan ışığı:** açık / kapalı (kapalıyken düz renk).
 - **Kartlar arasında rahat boşluk:** açık / kapalı.
 
-## Silme nasıl çalışıyor?
+## Düğmeler nasıl çalışıyor?
 
-Karttaki düğme Thunderbird'ün kendi silme yolunu kullanır (tablo
-görünümündeki Sil sütunuyla aynı). İleti, hesabınızın ayarına göre Çöp
-kutusuna taşınır ve **Ctrl+Z** ile geri alınabilir. Klavyede **Delete** tuşu
-aynı işi yapar. Seçili olmayan bir kartın düğmesine basarsanız yalnızca o
-kart silinir; açık olan iletiniz değişmez.
+Kristal kendi başına ileti silmez ya da işaretlemez; düğmeler Thunderbird'ün
+kendi komutlarını çağırır (tablo görünümündeki Sil ve Spam sütunlarıyla
+aynı). Seçili olmayan bir kartın düğmesine basarsanız yalnızca o kart
+etkilenir; açık olan iletiniz değişmez. Simgeler de Thunderbird'ün kendi
+simgeleridir.
+
+- **Sil:** İleti, hesabınızın ayarına göre Çöp kutusuna taşınır. Klavyede
+  **Delete** tuşu aynı işi yapar.
+- **Spam:** İleti spam olarak işaretlenir (klavyede **J**). Spam işaretli
+  iletide düğme kırmızı görünür; basınca işaret kalkar (klavyede
+  **Shift+J**). Thunderbird'ün varsayılan ayarında ileti yalnızca
+  işaretlenir, bulunduğu klasörde kalır. Spam klasörüne taşınmasını
+  isterseniz Thunderbird'ün **Ayarlar → Gizlilik ve Güvenlik** bölümündeki
+  spam (gereksiz ileti) ayarından açabilirsiniz.
+- **Yıldız:** Tıklayınca iletiye yıldız konur ya da kaldırılır. Thunderbird,
+  spam işaretli iletide yıldızı gizler.
 
 ## Erişilebilirlik
 
@@ -71,7 +86,8 @@ kart silinir; açık olan iletiniz değişmez.
   en güçlü olduğu durum hesaba katıldı.
 - Seçim yalnızca renkle değil, çerçeve ve sol vurgu çubuğuyla da gösterilir.
 - Klavye odağı 2 piksellik çerçeveyle görünür.
-- Sil düğmesinin tıklama alanı 28×28 pikseldir (WCAG 2.5.8 en az 24×24 ister).
+- Spam ve Sil düğmelerinin tıklama alanı 28×28, yıldızınki 24×24 pikseldir
+  (WCAG 2.5.8 en az 24×24 ister).
 - Windows'ta **Kontrast teması** açıksa Kristal hiçbir rengi değiştirmez;
   Thunderbird'ün erişilebilir sistem renkleri kalır.
 - **Animasyonları azalt** açıksa geçiş efektleri kapanır; **Saydamlık
@@ -93,13 +109,14 @@ python build.py
 | Dosya | Görevi |
 |---|---|
 | `src/manifest.json` | Eklenti tanımı |
-| `src/experiment/implementation.js` | Stil dosyalarını yükler, kartlara Sil düğmesini ekler, kart aralığını ayarlar |
+| `src/experiment/implementation.js` | Stil dosyalarını yükler, kartlara Spam ve Sil düğmelerini ekler, yıldızı kartın başına taşır, kart aralığını ayarlar |
 | `src/skin/tokens.css` | Renk paleti ve Thunderbird renk değişkenlerinin bağlanması |
-| `src/skin/three-pane.css` | Kartlar, cam efekti, Sil düğmesi, klasör listesi |
+| `src/skin/three-pane.css` | Kartlar, cam efekti, Spam/Sil düğmeleri, yıldız, klasör listesi |
+| `src/common.js` | Varsayılan ayarlar; ayarları arka plan betiğine ve ayarlar sayfasına ortak olarak verir |
+| `src/_locales/` | Düğme ipuçları, ayarlar sayfası ve eklenti açıklamasının Türkçe ve İngilizce yazıları |
 | `src/skin/main-window.css` | Sekmeler ve araç çubukları |
 | `src/skin/message.css` | İleti başlığı |
 | `src/options/` | Ayarlar sayfası |
-| `src/_locales/` | Türkçe ve İngilizce metinler |
 
 ## Mozilla'ya (addons.thunderbird.net) gönderme
 

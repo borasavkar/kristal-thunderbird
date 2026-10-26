@@ -33,8 +33,10 @@
                 "type": "object",
                 "optional": true,
                 "properties": {
-                  "delete": { "type": "string" },
-                  "restore": { "type": "string" }
+                  "delete": { "type": "string", "optional": true },
+                  "restore": { "type": "string", "optional": true },
+                  "spam": { "type": "string", "optional": true },
+                  "notSpam": { "type": "string", "optional": true }
                 }
               }
             }
