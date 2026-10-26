@@ -18,6 +18,12 @@ Thunderbird görünümü.
 Denenen sürüm: **Thunderbird 158.0.1, Windows 11**, kart görünümü.
 Başka sürümlerde denenmedi.
 
+![Koyu mod: seçili kart şeffaf cama dönüşür, Spam ve Sil düğmeleri kartın içindedir](docs/screenshots/01-koyu-secili-kart.png)
+
+![Açık mod](docs/screenshots/04-acik-secili-kart.png)
+
+Görüntüler uydurma örnek postalarla çekildi.
+
 ## Bu neden "tema" değil de "eklenti"?
 
 Thunderbird'ün resmî tema biçimi yalnızca renk ve arka plan resmi
@@ -36,7 +42,7 @@ tamamı `src` klasöründedir.
 
 1. Thunderbird'de sağ üstteki **☰** menüsünden **Eklentiler ve temalar**'ı açın.
 2. **Uzantılar** sayfasında dişli (⚙) simgesine, sonra **Dosyadan eklenti yükle…**'ye tıklayın.
-3. `dist\kristal-1.0.2.xpi` dosyasını seçin ve **Ekle** deyin. (Daha önceki
+3. `dist\kristal-1.0.3.xpi` dosyasını seçin ve **Ekle** deyin. (Daha önceki
    bir sürümü kurduysanız aynı yoldan yenisini kurmanız yeterli; üzerine
    güncellenir.)
 

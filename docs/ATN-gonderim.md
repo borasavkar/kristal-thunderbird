@@ -21,8 +21,21 @@ anlatır.
 5. **Sayfa bilgilerini doldurun.** Aşağıdaki "Eklenti sayfası metinleri"
    bölümünü kullanın. Lisans olarak **Mozilla Public License 2.0** seçin.
 6. **İnceleyiciye not yazın.** Aşağıdaki "İnceleyici notu" metnini yapıştırın.
-7. **Ekran görüntüsü ekleyin.** Koyu ve açık modda seçili bir kart, karttaki
-   Spam ve Sil düğmeleri ve ayarlar sayfası.
+7. **Ekran görüntüsü ekleyin.** Hazır görüntüler ve altyazıları aşağıdaki
+   "Ekran görüntüleri" bölümünde.
+
+## Ekran görüntüleri
+
+`docs/screenshots/` klasöründe, 1280×800 PNG. Hepsi uydurma örnek postalarla,
+ayrı bir test profilinde çekildi; gerçek posta içermez. Thunderbird arayüzü
+Türkçedir.
+
+| Dosya | Altyazı (English) | Altyazı (Türkçe) |
+|---|---|---|
+| `01-koyu-secili-kart.png` | Dark mode: the selected card turns into transparent glass, with Junk and Delete buttons inside the card. | Koyu mod: seçili kart şeffaf cama dönüşür; Spam ve Sil düğmeleri kartın içindedir. |
+| `02-koyu-spam-ipucu.png` | Hovering a button shows what it does and its keyboard shortcut. | Düğmenin üstüne gelince ne yaptığı ve klavye kısayolu görünür. |
+| `03-ayarlar.png` | Settings: accent color, button visibility, glass effect and card spacing. | Ayarlar: vurgu rengi, düğmelerin ne zaman görüneceği, cam efekti ve kart aralığı. |
+| `04-acik-secili-kart.png` | Light mode. | Açık mod. |
 
 ## Eklenti sayfası metinleri
 

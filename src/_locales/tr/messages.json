@@ -3,7 +3,7 @@
     "message": "Kristal"
   },
   "extensionDescription": {
-    "message": "Okumayı, ileti seçmeyi ve silmeyi kolaylaştıran sade, erişilebilir görünüm. Seçili kart cam gibi parlar; her kartın içinde Sil düğmesi vardır."
+    "message": "Okumayı, ileti seçmeyi ve silmeyi kolaylaştıran sade, erişilebilir görünüm. Seçili kart şeffaf cama dönüşür; her kartın içinde Spam ve Sil düğmeleri vardır."
   },
   "deleteMessage": {
     "message": "Bu iletiyi sil (Delete tuşu)"

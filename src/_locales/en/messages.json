@@ -3,7 +3,7 @@
     "message": "Kristal"
   },
   "extensionDescription": {
-    "message": "A calm, accessible look that makes reading, selecting and deleting mail easier. The selected card turns into glass, and every card has its own Delete button."
+    "message": "A calm, accessible look that makes reading, selecting and deleting mail easier. The selected card turns into transparent glass, and every card has its own Junk and Delete buttons."
   },
   "deleteMessage": {
     "message": "Delete this message (Delete key)"
