@@ -113,6 +113,9 @@ python build.py
   kullananlara da açmak için önce o sürümde denenmesi gerekir.
 - Liste sayfası için ekran görüntüleri hazırlanmalıdır.
 
+Adım adım gönderim sırası ve forma yapıştırılacak hazır metinler (eklenti
+sayfası açıklaması ve inceleyici notu): [docs/ATN-gonderim.md](docs/ATN-gonderim.md)
+
 ## Lisans
 
 Kristal, [Mozilla Public License 2.0](LICENSE) ile yayınlanır.
