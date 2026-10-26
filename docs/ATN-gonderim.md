@@ -136,6 +136,14 @@ Türkçedir.
 >   `extensions.kristal.options`, so the saved look applies at startup before
 >   the lazily started background script runs.
 >
+> - All experiment code lives inside one closure; the only global is the
+>   API class `kristal`.
+> - `strict_max_version` is `160.*`. The add-on is tested on Thunderbird
+>   158.0.1; the limit will be raised after testing each new release.
+> - The linter reports `INVALID_SELECTOR_NESTING` for the stylesheets. They
+>   use native CSS nesting, which Thunderbird supports and uses in its own
+>   skin files.
+>
 > There are no network requests, no remote code and no access to message
 > content. Nothing is minified or generated: the XPI is a plain zip of `src/`
 > made by `build.py`. Source: https://github.com/borasavkar/kristal-thunderbird
