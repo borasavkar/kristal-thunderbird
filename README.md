@@ -68,6 +68,14 @@ uygulanır.
 
 ## Düğmeler nasıl çalışıyor?
 
+Düğmeye basınca önce kartta kısa bir efekt oynar (silinen kart kırmızılaşıp
+sola kayarak kaybolur, spam işaretlenen kart turuncu yanıp söner), işlem
+ondan sonra yapılır ve listenin altında "İleti silindi" gibi bir bilgi
+belirir. Arka arkaya birkaç ileti silinirse bilgide sayı da görünür. Efekt ve
+ardından gelen kısa süre boyunca Spam/Sil düğmelerine yapılan yeni
+tıklamalar yok sayılır; böylece liste kayınca alttaki iletiye yanlışlıkla
+basılmaz. "Animasyonları azalt" açıksa kart kaymaz, yalnızca renk alır.
+
 Kristal kendi başına ileti silmez ya da işaretlemez; düğmeler Thunderbird'ün
 kendi komutlarını çağırır (tablo görünümündeki Sil ve Spam sütunlarıyla
 aynı). Seçili olmayan bir kartın düğmesine basarsanız yalnızca o kart
@@ -110,7 +118,17 @@ anahtarı kapatın). Kapatınca bütün değişiklikler anında geri alınır.
 python build.py
 ```
 
-`dist\kristal-<sürüm>.xpi` dosyasını üretir. Dosyalar:
+`dist\kristal-<sürüm>.xpi` dosyasını üretir.
+
+Denemek için gerçek profile dokunmadan ayrı bir test profili:
+
+```
+python tools/make_test_profile.py <boş-klasör> dist/kristal-<sürüm>.xpi
+```
+
+`tools/capture_window.ps1` test penceresini 1280×800 yapıp PNG görüntüsünü alır.
+
+Dosyalar:
 
 | Dosya | Görevi |
 |---|---|

@@ -52,6 +52,10 @@ var kristal = (() => {
       restore: "Restore this message",
       spam: "Mark as junk (J key)",
       notSpam: "Mark as not junk (Shift+J)",
+      deleteDone: "Message deleted",
+      restoreDone: "Message restored",
+      spamDone: "Marked as junk",
+      notSpamDone: "Junk mark removed",
     }),
   });
 
@@ -60,6 +64,13 @@ var kristal = (() => {
   const EXTRA_ROW_HEIGHT = 6;
 
   const XHTML_NS = "http://www.w3.org/1999/xhtml";
+
+  // How long each card effect plays before the action runs (ms); matches
+  // the animations in three-pane.css. After that, further Spam/Delete clicks
+  // are ignored for COOLDOWN_MS so a second message is not hit by accident.
+  const EFFECT_MS = { delete: 320, restore: 320, spam: 420, notSpam: 420 };
+  const COOLDOWN_MS = 400;
+  const TOAST_MS = 2600;
   // Thunderbird starts the background script lazily, often after the windows
   // are already open. The last options are kept here so the saved look is
   // applied right away at startup, without waiting for the background script.
@@ -105,6 +116,10 @@ var kristal = (() => {
       this.documents = new Set();
       /** @type {WeakMap<Window, {base: number, applied: number}>} */
       this.rowHeights = new WeakMap();
+      /** @type {WeakMap<Document, number>} Time until Spam/Delete clicks are ignored. */
+      this.busyUntil = new WeakMap();
+      /** @type {WeakMap<Document, {kind: string, count: number, timer: number}>} */
+      this.toastState = new WeakMap();
       this.running = false;
     }
 
@@ -196,6 +211,9 @@ var kristal = (() => {
       switch (event.type) {
         case "unload":
           this.forget(event.target);
+          break;
+        case "click":
+          this.onActionClick(event);
           break;
         case "uidensitychange":
         case "uifontsizechange":
@@ -319,6 +337,8 @@ var kristal = (() => {
 
       win.addEventListener("uidensitychange", this);
       win.addEventListener("uifontsizechange", this);
+      // Capture phase: runs before Thunderbird's own click handler on the tree.
+      doc.getElementById("threadTree")?.addEventListener("click", this, true);
       this.applyRowSpacing(win, true);
     }
 
@@ -326,6 +346,11 @@ var kristal = (() => {
       const win = doc.defaultView;
       win.removeEventListener("uidensitychange", this);
       win.removeEventListener("uifontsizechange", this);
+      doc.getElementById("threadTree")?.removeEventListener("click", this, true);
+      doc.getElementById("kristalToast")?.remove();
+      for (const card of doc.querySelectorAll("[kristal-effect]")) {
+        card.removeAttribute("kristal-effect");
+      }
 
       this.forEachCard(doc, card => {
         for (const button of card.querySelectorAll(".kristal-action")) {
@@ -346,6 +371,111 @@ var kristal = (() => {
         this.resetTree(doc);
       }
       this.rowHeights.delete(win);
+    }
+
+    /**
+     * A click on a Kristal Spam/Delete button first plays an effect on the
+     * card, then hands the action to Thunderbird. Until the effect and a short
+     * pause are over, further clicks on these buttons are ignored: otherwise
+     * the next card slides under the pointer and a second click would act on
+     * a message the user never meant.
+     */
+    onActionClick(event) {
+      const button = event.target.closest?.(".kristal-action");
+      if (!button || event.button !== 0) {
+        return;
+      }
+      // Kristal replays the action itself once the effect has played.
+      event.stopPropagation();
+      event.preventDefault();
+
+      const doc = button.ownerDocument;
+      const win = doc.defaultView;
+      const now = win.performance.now();
+      if (now < (this.busyUntil.get(doc) ?? 0)) {
+        return;
+      }
+      const row = button.closest("tr.card-layout");
+      const view = win.gDBView;
+      if (!row || !view || !Number.isInteger(row.index)) {
+        return;
+      }
+      let header;
+      try {
+        header = view.getMsgHdrAt(row.index);
+      } catch {
+        return;
+      }
+
+      const kind = button.classList.contains("tree-button-restore")
+        ? "restore"
+        : button.classList.contains("kristal-delete")
+          ? "delete"
+          : button.classList.contains("kristal-spam-unmark")
+            ? "notSpam"
+            : "spam";
+      const duration = EFFECT_MS[kind];
+      this.busyUntil.set(doc, now + duration + COOLDOWN_MS);
+
+      const card = row.querySelector(".card-container");
+      card?.setAttribute("kristal-effect", kind);
+
+      win.setTimeout(() => {
+        // Find the message again; the list may have changed meanwhile.
+        let index = -1;
+        try {
+          index = view.findIndexOfMsgHdr(header, true);
+        } catch {}
+        const body = doc.getElementById("threadTree")?.table?.body;
+        if (body && index >= 0 && index < view.rowCount) {
+          if (kind == "delete" || kind == "restore") {
+            body.dispatchEvent(
+              new win.CustomEvent("request-delete", { bubbles: true, detail: { index } })
+            );
+          } else {
+            body.dispatchEvent(
+              new win.CustomEvent("toggle-spam", {
+                bubbles: true,
+                detail: { isJunk: kind == "notSpam", index },
+              })
+            );
+          }
+          this.showToast(doc, kind);
+        }
+        // Rows are reused for other messages; clear the effect after the
+        // list has redrawn.
+        win.requestAnimationFrame(() =>
+          win.requestAnimationFrame(() => card?.removeAttribute("kristal-effect"))
+        );
+      }, duration);
+    }
+
+    /** Short status line at the bottom of the message list (aria-live). */
+    showToast(doc, kind) {
+      const win = doc.defaultView;
+      let toast = doc.getElementById("kristalToast");
+      if (!toast) {
+        toast = doc.createElementNS(XHTML_NS, "div");
+        toast.id = "kristalToast";
+        toast.setAttribute("role", "status");
+        toast.setAttribute("aria-live", "polite");
+        doc.getElementById("threadPane")?.append(toast);
+      }
+      // Repeated actions of the same kind while the note is visible are
+      // counted, so "Message deleted (2)" shows that two went.
+      const last = this.toastState.get(doc);
+      const count =
+        last && last.kind == kind && toast.hasAttribute("kristal-visible") ? last.count + 1 : 1;
+      this.toastState.set(doc, { kind, count });
+      const text = this.options.strings[`${kind}Done`];
+      toast.textContent = count > 1 ? `${text} (${count})` : text;
+      toast.setAttribute("kristal-kind", kind);
+      toast.setAttribute("kristal-visible", "");
+      win.clearTimeout(last?.timer);
+      this.toastState.get(doc).timer = win.setTimeout(
+        () => toast.removeAttribute("kristal-visible"),
+        TOAST_MS
+      );
     }
 
     createActionButtons(doc) {

@@ -442,3 +442,112 @@
     background-image: none;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Silme ve spam efekti, bilgi kutucuğu                               */
+/* ------------------------------------------------------------------ */
+
+/* Kutucuğun yeri her durumda (Kontrast teması açıkken de) geçerli; listeyi
+   itmeden, listenin altında ortada durur. */
+:root[kristal] #threadPane {
+  position: relative;
+}
+
+:root[kristal] #kristalToast {
+  position: absolute;
+  inset-block-end: 14px;
+  inset-inline: 0;
+  inline-size: fit-content;
+  max-inline-size: calc(100% - 32px);
+  margin-inline: auto;
+  padding: 8px 16px;
+  border: 1px solid CanvasText;
+  border-radius: 999px;
+  background-color: Canvas;
+  color: CanvasText;
+  font-weight: 600;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+
+  &[kristal-visible] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes kristal-leave {
+  to {
+    opacity: 0;
+    transform: translateX(-32px) scale(0.97);
+  }
+}
+
+@keyframes kristal-flash {
+  0%,
+  100% {
+    background-color: var(--k-effect-rest);
+  }
+  35%,
+  65% {
+    background-color: var(--k-effect-strong);
+  }
+}
+
+@media (prefers-contrast: no-preference) and (forced-colors: none) {
+  :root[kristal] #kristalToast {
+    border-color: var(--k-border-strong);
+    border-inline-start: 4px solid var(--k-toast-color, var(--k-accent));
+    background-color: var(--k-raised);
+    color: var(--k-text);
+    box-shadow: 0 8px 24px -10px rgb(0 0 0 / 0.45);
+
+    &[kristal-kind="delete"] {
+      --k-toast-color: var(--k-danger);
+    }
+    &[kristal-kind="spam"] {
+      --k-toast-color: var(--k-warn);
+    }
+  }
+
+  /* Silinen kart: kırmızılaşır, sola kayarak kaybolur. */
+  :root[kristal] #threadTree[rows="thread-card"] .card-layout > td > .card-container[kristal-effect="delete"] {
+    background-color: color-mix(in srgb, var(--k-danger) 22%, var(--k-card));
+    border-color: var(--k-danger);
+    animation: kristal-leave 320ms var(--k-ease) forwards;
+  }
+
+  /* Spam / spam değil / geri getir: kart iki kez renkle yanıp söner. */
+  :root[kristal] #threadTree[rows="thread-card"] .card-layout > td > .card-container:is([kristal-effect="spam"], [kristal-effect="notSpam"], [kristal-effect="restore"]) {
+    --k-effect-color: var(--k-accent);
+    --k-effect-rest: color-mix(in srgb, var(--k-effect-color) 8%, var(--k-card));
+    --k-effect-strong: color-mix(in srgb, var(--k-effect-color) 30%, var(--k-card));
+    border-color: var(--k-effect-color);
+    animation: kristal-flash 420ms ease-in-out;
+  }
+
+  :root[kristal] #threadTree[rows="thread-card"] .card-layout > td > .card-container[kristal-effect="spam"] {
+    --k-effect-color: var(--k-warn);
+  }
+
+  /* Hareketi azalt açıksa kayma ve yanıp sönme olmaz; kart yalnızca renk
+     alır ve soluklaşır. Bekleme süresi aynı kalır. */
+  @media (prefers-reduced-motion: reduce) {
+    :root[kristal] #threadTree[rows="thread-card"] .card-layout > td > .card-container[kristal-effect] {
+      animation: none;
+      background-color: var(--k-effect-strong, color-mix(in srgb, var(--k-danger) 22%, var(--k-card)));
+    }
+
+    :root[kristal] #threadTree[rows="thread-card"] .card-layout > td > .card-container[kristal-effect="delete"] {
+      opacity: 0.45;
+    }
+
+    :root[kristal] #kristalToast {
+      transition: none;
+    }
+  }
+}

@@ -28,6 +28,10 @@ async function applyKristalOptions() {
       restore: browser.i18n.getMessage("restoreMessage"),
       spam: browser.i18n.getMessage("spamMessage"),
       notSpam: browser.i18n.getMessage("notSpamMessage"),
+      deleteDone: browser.i18n.getMessage("deleteDone"),
+      restoreDone: browser.i18n.getMessage("restoreDone"),
+      spamDone: browser.i18n.getMessage("spamDone"),
+      notSpamDone: browser.i18n.getMessage("notSpamDone"),
     },
   });
 }

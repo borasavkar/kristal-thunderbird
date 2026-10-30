@@ -128,6 +128,14 @@ Türkçedir.
 >   view handlers (`toggle-spam`, `request-delete`, `toggle-flag`, which call
 >   `gDBView.applyCommandToIndices`); the add-on never changes messages
 >   itself. On shutdown the buttons are removed and the star is moved back.
+> - A capture-phase click listener on `#threadTree` intercepts clicks on
+>   these Kristal buttons only, plays a short CSS effect on the card
+>   (320–420 ms), then dispatches the same `request-delete` / `toggle-spam`
+>   event Thunderbird's tree view would, for the message found again with
+>   `gDBView.findIndexOfMsgHdr`. Further clicks on the buttons are ignored
+>   until the effect plus 400 ms are over, so the next card sliding under the
+>   pointer is not deleted by accident. A small `role="status"` note in
+>   `#threadPane` reports the action. Both are removed on shutdown.
 > - Adds 6 px to `ThreadCard.ROW_HEIGHT` after Thunderbird recalculates it
 >   (`uidensitychange` / `uifontsizechange` events and observers for
 >   `mail.threadpane.cardsview.rowcount` and `mail.threadpane.listview`), then

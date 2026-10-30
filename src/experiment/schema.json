@@ -36,7 +36,11 @@
                   "delete": { "type": "string", "optional": true },
                   "restore": { "type": "string", "optional": true },
                   "spam": { "type": "string", "optional": true },
-                  "notSpam": { "type": "string", "optional": true }
+                  "notSpam": { "type": "string", "optional": true },
+                  "deleteDone": { "type": "string", "optional": true },
+                  "restoreDone": { "type": "string", "optional": true },
+                  "spamDone": { "type": "string", "optional": true },
+                  "notSpamDone": { "type": "string", "optional": true }
                 }
               }
             }

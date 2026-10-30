@@ -17,6 +17,18 @@
   "notSpamMessage": {
     "message": "Mark as not junk (Shift+J)"
   },
+  "deleteDone": {
+    "message": "Message deleted"
+  },
+  "restoreDone": {
+    "message": "Message restored"
+  },
+  "spamDone": {
+    "message": "Marked as junk"
+  },
+  "notSpamDone": {
+    "message": "Junk mark removed"
+  },
   "optionsTitle": {
     "message": "Kristal settings"
   },

@@ -17,6 +17,18 @@
   "notSpamMessage": {
     "message": "Spam değil olarak işaretle (Shift+J)"
   },
+  "deleteDone": {
+    "message": "İleti silindi"
+  },
+  "restoreDone": {
+    "message": "İleti geri getirildi"
+  },
+  "spamDone": {
+    "message": "İleti spam olarak işaretlendi"
+  },
+  "notSpamDone": {
+    "message": "Spam işareti kaldırıldı"
+  },
   "optionsTitle": {
     "message": "Kristal ayarları"
   },
