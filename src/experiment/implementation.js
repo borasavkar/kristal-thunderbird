@@ -426,8 +426,23 @@ var kristal = (() => {
         try {
           index = view.findIndexOfMsgHdr(header, true);
         } catch {}
-        const body = doc.getElementById("threadTree")?.table?.body;
-        if (body && index >= 0 && index < view.rowCount) {
+        const tree = doc.getElementById("threadTree");
+        const body = tree?.table?.body;
+        // When the card is the one open in the message pane, use
+        // Thunderbird's own commands: they also move on to the next message,
+        // so the deleted (or junked) one does not stay on screen.
+        const selection = view.selection;
+        const isOpenMessage =
+          index >= 0 && selection?.count == 1 && selection.isSelected(index);
+        const commands = {
+          delete: "cmd_deleteMessage",
+          spam: "cmd_markAsJunk",
+          notSpam: "cmd_markAsNotJunk",
+        };
+        if (isOpenMessage && commands[kind] && win.commandController) {
+          win.commandController.doCommand(commands[kind]);
+          this.showToast(doc, kind);
+        } else if (body && index >= 0 && index < view.rowCount) {
           if (kind == "delete" || kind == "restore") {
             body.dispatchEvent(
               new win.CustomEvent("request-delete", { bubbles: true, detail: { index } })
