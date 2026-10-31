@@ -10,6 +10,8 @@ Thunderbird görünümü.
 - Her kartın sağ altında yan yana **Spam** ve **Sil** düğmeleri vardır.
   Seçili kartta ve fareyle üzerine gelince görünürler (ayarlardan "her
   zaman" da yapılabilir).
+- **Okunmamış iletiler** hafif renkli, daha parlak zeminli ve solda vurgu
+  çizgilidir; okunmuşlar sönük zeminlidir. Kart ve liste görünümünde aynı.
 - **Yıldız** kartın başındadır: okunmamış noktasının altında, konu satırının
   hizasında.
 - Seçili sekme de aynı cam görünümündedir.
@@ -42,7 +44,7 @@ tamamı `src` klasöründedir.
 
 1. Thunderbird'de sağ üstteki **☰** menüsünden **Eklentiler ve temalar**'ı açın.
 2. **Uzantılar** sayfasında dişli (⚙) simgesine, sonra **Dosyadan eklenti yükle…**'ye tıklayın.
-3. `dist\kristal-1.0.6.xpi` dosyasını seçin ve **Ekle** deyin. (Daha önceki
+3. `dist\kristal-1.0.7.xpi` dosyasını seçin ve **Ekle** deyin. (Daha önceki
    bir sürümü kurduysanız aynı yoldan yenisini kurmanız yeterli; üzerine
    güncellenir.)
 

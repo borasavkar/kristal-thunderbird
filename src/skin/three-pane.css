@@ -551,3 +551,52 @@
     }
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Okunmuş / okunmamış farkı                                          */
+/* ------------------------------------------------------------------ */
+
+/* Okunmamış ileti: hafif vurgu renkli, daha parlak zemin ve solda vurgu
+   çizgisi (kalın yazı ve nokta da kalır). Okunmuş ileti: liste zeminine
+   yakın, sönük zemin. Fareyle üzerine gelme, odak ve seçili cam görünümü
+   Thunderbird'ün/Kristal'in kendi kurallarıyla devam eder. */
+@media (prefers-contrast: no-preference) and (forced-colors: none) {
+  :root[kristal] {
+    --k-card-read: light-dark(#e4e8ef, #14171f);
+    --k-card-unread: light-dark(
+      color-mix(in srgb, var(--k-accent) 7%, var(--k-card)),
+      color-mix(in srgb, var(--k-accent) 10%, var(--k-card))
+    );
+  }
+
+  /* Kart görünümü */
+  :root[kristal] #threadTree[rows="thread-card"] .card-layout:not([data-properties~="dummy"], :hover, .selected, .current) > td > .card-container {
+    background-color: var(--k-card-read);
+    border-color: light-dark(#d3d9e3, #222736);
+    box-shadow: none;
+  }
+
+  :root[kristal] #threadTree[rows="thread-card"] .card-layout[data-properties~="unread"]:not([data-properties~="dummy"], :hover, .selected, .current) > td > .card-container {
+    background-color: var(--k-card-unread);
+    border-color: color-mix(in srgb, var(--k-accent) 35%, var(--k-border));
+    box-shadow:
+      inset 3px 0 0 var(--k-accent),
+      0 1px 2px light-dark(rgb(22 26 36 / 0.08), rgb(0 0 0 / 0.3));
+  }
+
+  :root[kristal] #threadTree[rows="thread-card"] .card-layout[data-properties~="unread"]:not([data-properties~="dummy"], :hover, .selected, .current) > td > .card-container:dir(rtl) {
+    box-shadow:
+      inset -3px 0 0 var(--k-accent),
+      0 1px 2px light-dark(rgb(22 26 36 / 0.08), rgb(0 0 0 / 0.3));
+  }
+
+  /* Liste (tablo) görünümü */
+  :root[kristal] #threadTree[rows="thread-row"] .table-layout:not([data-properties~="dummy"], :hover, .selected) {
+    background-color: var(--k-card-read);
+  }
+
+  :root[kristal] #threadTree[rows="thread-row"] .table-layout[data-properties~="unread"]:not([data-properties~="dummy"], :hover, .selected) {
+    background-color: var(--k-card-unread);
+    box-shadow: inset 3px 0 0 var(--k-accent);
+  }
+}
