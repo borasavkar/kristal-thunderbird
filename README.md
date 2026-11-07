@@ -40,13 +40,21 @@ yapısına erişmesine izin veren bölüm) ile yapılabiliyor. Kristal ağa
 bağlanmaz, postalarınızı okumaz, hiçbir yere veri göndermez. Kodun
 tamamı `src` klasöründedir.
 
-## Kurulum (deneme)
+## Kurulum
 
-1. Thunderbird'de sağ üstteki **☰** menüsünden **Eklentiler ve temalar**'ı açın.
-2. **Uzantılar** sayfasında dişli (⚙) simgesine, sonra **Dosyadan eklenti yükle…**'ye tıklayın.
-3. `dist\kristal-1.0.7.xpi` dosyasını seçin ve **Ekle** deyin. (Daha önceki
-   bir sürümü kurduysanız aynı yoldan yenisini kurmanız yeterli; üzerine
-   güncellenir.)
+1. [Sürümler sayfasından](https://github.com/borasavkar/kristal-thunderbird/releases/latest)
+   en yeni `kristal-<sürüm>.xpi` dosyasını indirin.
+2. Thunderbird'de sağ üstteki **☰** menüsünden **Eklentiler ve temalar**'ı açın.
+3. **Uzantılar** sayfasında dişli (⚙) simgesine, sonra **Dosyadan eklenti yükle…**'ye tıklayın.
+4. İndirdiğiniz dosyayı seçin ve **Ekle** deyin.
+
+1.0.8 ve sonrası kendini GitHub'dan günceller: yeni sürüm çıkınca Thunderbird
+onu kendiliğinden bulur ve kurar. 1.0.7 veya daha eskisini kurduysanız 1.0.8'i
+bir kez elle kurmanız yeterli.
+
+Kristal, Thunderbird'ün resmî eklenti sitesinde yok (aşağıya bakın); bu yüzden
+yalnızca buradan dağıtılıyor. Yalnızca renklerden oluşan **Kristal renk
+teması** ise `theme/` klasöründe.
 
 En iyi sonuç için:
 
@@ -144,20 +152,22 @@ Dosyalar:
 | `src/skin/message.css` | İleti başlığı |
 | `src/options/` | Ayarlar sayfası |
 
-## Mozilla'ya (addons.thunderbird.net) gönderme
+## Neden Mozilla'nın sitesinde değil?
 
-- Gönderim "tema" olarak değil **eklenti** olarak yapılır; Thunderbird'ün tema
-  bölümü yalnızca renk ve resim değiştiren dosyaları kabul eder.
-- Thunderbird eklenti sitesinde (addons.thunderbird.net) bir geliştirici
-  hesabı gerekir.
-- Lisans: **MPL-2.0** (gönderim formunda da bu seçilmelidir).
-- Deneysel API kullanan eklentiler elle incelenir.
-- `strict_min_version` şu an `158.0`. Uzun süreli destek sürümünü (ESR)
-  kullananlara da açmak için önce o sürümde denenmesi gerekir.
-- Liste sayfası için ekran görüntüleri hazırlanmalıdır.
+Kristal 1.0.7, Kasım 2026'da addons.thunderbird.net'te reddedildi. Gerekçe:
+"kristal API'si yayımlanmış bir Thunderbird API taslağı değil; deneysel
+(Experiment) API'ler kabul edilmiyor." Kristal'in düğmeleri, cam kartı ve
+okunmamış vurgusu bu deneysel API ile çalışıyor; Thunderbird'ün resmî
+API'lerinde bunların karşılığı yok. Bu yüzden eklenti GitHub'dan dağıtılıyor.
 
-Adım adım gönderim sırası ve forma yapıştırılacak hazır metinler (eklenti
-sayfası açıklaması ve inceleyici notu): [docs/ATN-gonderim.md](docs/ATN-gonderim.md)
+Eski gönderim notları: [docs/ATN-gonderim.md](docs/ATN-gonderim.md)
+
+## Yeni sürüm yayımlama
+
+1. `src/manifest.json` içindeki sürümü yükseltin.
+2. `python build.py` ve `python tools/make_updates_json.py` çalıştırın.
+3. GitHub'da `v<sürüm>` etiketiyle bir sürüm açıp `dist/kristal-<sürüm>.xpi`
+   dosyasını ekleyin; `updates.json`'ı commit edip gönderin.
 
 ## Lisans
 
