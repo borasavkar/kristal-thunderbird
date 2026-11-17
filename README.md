@@ -42,15 +42,18 @@ tamamı `src` klasöründedir.
 
 ## Kurulum
 
-1. [Sürümler sayfasından](https://github.com/borasavkar/kristal-thunderbird/releases/latest)
-   en yeni `kristal-<sürüm>.xpi` dosyasını indirin.
+1. En yeni sürüm **1.0.9**:
+   [`kristal-1.0.9.xpi`](https://github.com/borasavkar/kristal-thunderbird/releases/download/v1.0.9/kristal-1.0.9.xpi)
+   dosyasını indirin. Daha yeni bir sürüm çıktıysa
+   [Sürümler sayfasında](https://github.com/borasavkar/kristal-thunderbird/releases/latest)
+   bulunur.
 2. Thunderbird'de sağ üstteki **☰** menüsünden **Eklentiler ve temalar**'ı açın.
 3. **Uzantılar** sayfasında dişli (⚙) simgesine, sonra **Dosyadan eklenti yükle…**'ye tıklayın.
 4. İndirdiğiniz dosyayı seçin ve **Ekle** deyin.
 
 1.0.8 ve sonrası kendini GitHub'dan günceller: yeni sürüm çıkınca Thunderbird
-onu kendiliğinden bulur ve kurar. 1.0.7 veya daha eskisini kurduysanız 1.0.8'i
-bir kez elle kurmanız yeterli.
+onu kendiliğinden bulur ve kurar. 1.0.7 veya daha eskisini kurduysanız 1.0.9'u
+yukarıdaki adımlarla bir kez elle kurmanız yeterli; sonrası kendiliğinden gelir.
 
 Kristal, Thunderbird'ün resmî eklenti sitesinde yok (aşağıya bakın); bu yüzden
 yalnızca buradan dağıtılıyor. Yalnızca renklerden oluşan **Kristal renk
