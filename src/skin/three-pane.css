@@ -600,3 +600,107 @@
     box-shadow: inset 3px 0 0 var(--k-accent);
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* 3B cam: kabarık seçili kart, hafif animasyonlar, ayrışan hesaplar   */
+/* ------------------------------------------------------------------ */
+
+@media (prefers-contrast: no-preference) and (forced-colors: none) {
+  :root[kristal] {
+    /* Seçili kartın zemini: vurgu renginde tonlu, üstü daha parlak.
+       Yazı/zemin oranı tüm vurgu renklerinde en az 5.0:1. */
+    --k-raised-tint: light-dark(
+      color-mix(in srgb, var(--k-accent) 16%, var(--k-card)),
+      color-mix(in srgb, var(--k-accent) 22%, var(--k-card))
+    );
+    --k-raised-sheen: light-dark(rgb(255 255 255 / 0), rgb(255 255 255 / 0.10));
+    --k-raised-shade: light-dark(rgb(22 26 36 / 0.10), rgb(0 0 0 / 0.35));
+  }
+
+  /* Seçili kart: kabarık cam. Tonlu zemin, üstte ışık çizgisi, altta
+     iç gölge ve hafif büyüme; "seçildi" hissi verir. */
+  :root[kristal] #threadTree[rows="thread-card"] .card-layout.selected > td > .card-container {
+    background-color: var(--k-raised-tint);
+    background-image: linear-gradient(to bottom, var(--k-raised-sheen), transparent 55%);
+    box-shadow:
+      inset 0 1px 0 var(--k-glass-highlight),
+      inset 0 -2px 0 var(--k-raised-shade),
+      0 3px 8px -4px var(--k-glass-shadow);
+    transform: scale(1.012);
+  }
+
+  :root[kristal] #threadTree[rows="thread-card"]:not(:focus-within) .card-layout.selected > td > .card-container {
+    box-shadow:
+      inset 0 1px 0 var(--k-glass-highlight),
+      inset 0 -2px 0 var(--k-raised-shade);
+  }
+
+  /* Üzerine gelince kart hafifçe yükselir. */
+  :root[kristal] #threadTree[rows="thread-card"] .card-layout:not(.selected, [data-properties~="dummy"]):hover > td > .card-container {
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 light-dark(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.06)),
+      0 2px 6px -3px var(--k-glass-shadow);
+  }
+
+  :root[kristal] #threadTree[rows="thread-card"] .card-layout > td > .card-container {
+    transition:
+      background-color var(--k-duration) var(--k-ease),
+      border-color var(--k-duration) var(--k-ease),
+      box-shadow var(--k-duration) var(--k-ease),
+      transform var(--k-duration) var(--k-ease);
+  }
+
+  /* Tablo görünümünde seçili satır da tonlu zemin alır. */
+  :root[kristal] #threadTree[rows="thread-row"] .table-layout.selected {
+    background-color: var(--k-raised-tint);
+    color: var(--k-text);
+    box-shadow:
+      inset 3px 0 0 var(--k-accent),
+      inset 0 1px 0 var(--k-glass-highlight);
+  }
+
+  /* --- Klasör listesi: her hesap ayrı bir başlık --------------------- */
+  :root[kristal] #folderTree > li[data-server-type] {
+    margin-block-start: 6px;
+  }
+
+  :root[kristal] #folderTree li[data-server-type] > .container {
+    background-color: light-dark(#dde2ea, #1c2130);
+    border: 1px solid light-dark(#cdd4df, #2b3142);
+    box-shadow: inset 0 1px 0 light-dark(rgb(255 255 255 / 0.7), rgb(255 255 255 / 0.05));
+  }
+
+  :root[kristal] #folderTree li[data-server-type] > .container > .name {
+    font-weight: 650;
+  }
+
+  /* Hesabın klasörleri hafif bir girintiyle başlığa bağlı görünür. */
+  :root[kristal] #folderTree li[data-server-type] > ul {
+    margin-inline-start: 6px;
+    padding-inline-start: 4px;
+    border-inline-start: 1px solid light-dark(#d3d9e3, #232838);
+  }
+
+  /* Seçili klasör: kartlar gibi kabarık cam. */
+  :root[kristal] #folderTree li.selected > .container {
+    background-color: var(--k-raised-tint);
+    background-image: linear-gradient(to bottom, var(--k-raised-sheen), transparent 60%);
+    box-shadow:
+      inset 0 1px 0 var(--k-glass-highlight),
+      inset 0 -2px 0 var(--k-raised-shade),
+      inset 3px 0 0 var(--k-accent);
+  }
+
+  :root[kristal] #folderTree .container {
+    transition:
+      background-color var(--k-duration) var(--k-ease),
+      box-shadow var(--k-duration) var(--k-ease);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root[kristal] #threadTree[rows="thread-card"] .card-layout > td > .card-container {
+      transform: none !important;
+    }
+  }
+}
