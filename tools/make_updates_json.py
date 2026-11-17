@@ -27,7 +27,11 @@ def main():
     gecko = manifest["browser_specific_settings"]["gecko"]
     updates = []
     for xpi in sorted((ROOT / "dist").glob("kristal-*.xpi")):
-        version = re.match(r"kristal-(.+)\.xpi$", xpi.name).group(1)
+        # Only the add-on (kristal-1.2.3.xpi), not the theme (kristal-renkleri-…).
+        match = re.match(r"kristal-(\d+(?:\.\d+)*)\.xpi$", xpi.name)
+        if not match:
+            continue
+        version = match.group(1)
         if tuple(int(p) for p in version.split(".")) < FIRST_SELF_HOSTED:
             continue
         updates.append({
