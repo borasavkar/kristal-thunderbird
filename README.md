@@ -56,8 +56,12 @@ onu kendiliğinden bulur ve kurar. 1.0.7 veya daha eskisini kurduysanız 1.0.9'u
 yukarıdaki adımlarla bir kez elle kurmanız yeterli; sonrası kendiliğinden gelir.
 
 Kristal, Thunderbird'ün resmî eklenti sitesinde yok (aşağıya bakın); bu yüzden
-yalnızca buradan dağıtılıyor. Yalnızca renklerden oluşan **Kristal renk
-teması** ise `theme/` klasöründe.
+yalnızca buradan dağıtılıyor.
+
+Yalnızca renklerden oluşan **Kristal Colors** teması ise Mozilla'da yayında:
+[addons.thunderbird.net/thunderbird/addon/kristal-colors](https://addons.thunderbird.net/thunderbird/addon/kristal-colors/).
+Kaynağı `theme/` klasöründe. Tema yalnızca renkleri değiştirir; Spam ve Sil
+düğmeleri, cam kart ve efektler bu eklentiden gelir.
 
 En iyi sonuç için:
 
