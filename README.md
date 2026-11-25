@@ -42,8 +42,8 @@ tamamı `src` klasöründedir.
 
 ## Kurulum
 
-1. En yeni sürüm **1.0.10**:
-   [`kristal-1.0.10.xpi`](https://github.com/borasavkar/kristal-thunderbird/releases/download/v1.0.10/kristal-1.0.10.xpi)
+1. En yeni sürüm **1.0.11**:
+   [`kristal-1.0.11.xpi`](https://github.com/borasavkar/kristal-thunderbird/releases/download/v1.0.11/kristal-1.0.11.xpi)
    dosyasını indirin. Daha yeni bir sürüm çıktıysa
    [Sürümler sayfasında](https://github.com/borasavkar/kristal-thunderbird/releases/latest)
    bulunur.
@@ -52,8 +52,13 @@ tamamı `src` klasöründedir.
 4. İndirdiğiniz dosyayı seçin ve **Ekle** deyin.
 
 1.0.8 ve sonrası kendini GitHub'dan günceller: yeni sürüm çıkınca Thunderbird
-onu kendiliğinden bulur ve kurar. 1.0.7 veya daha eskisini kurduysanız 1.0.10'u
+onu kendiliğinden bulur ve kurar. 1.0.7 veya daha eskisini kurduysanız 1.0.11'i
 yukarıdaki adımlarla bir kez elle kurmanız yeterli; sonrası kendiliğinden gelir.
+
+1.0.11'den beri Kristal'de üst Thunderbird sürüm sınırı yok: Thunderbird
+güncellenince Kristal "uyumsuz" diye kapanmaz. Bir Thunderbird güncellemesinden
+sonra düğmeler ya da görünüm bozulursa lütfen bir
+[sorun bildirin](https://github.com/borasavkar/kristal-thunderbird/issues).
 
 Kristal, Thunderbird'ün resmî eklenti sitesinde yok (aşağıya bakın); bu yüzden
 yalnızca buradan dağıtılıyor.

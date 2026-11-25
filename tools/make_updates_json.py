@@ -25,6 +25,9 @@ FIRST_SELF_HOSTED = (1, 0, 8)
 def main():
     manifest = json.loads((ROOT / "src" / "manifest.json").read_text(encoding="utf-8"))
     gecko = manifest["browser_specific_settings"]["gecko"]
+    # Since 1.0.11 there is no strict_max_version: Kristal keeps running after
+    # Thunderbird updates instead of being disabled as incompatible.
+    app_versions = {k: gecko[k] for k in ("strict_min_version", "strict_max_version") if k in gecko}
     updates = []
     for xpi in sorted((ROOT / "dist").glob("kristal-*.xpi")):
         # Only the add-on (kristal-1.2.3.xpi), not the theme (kristal-renkleri-…).
@@ -38,12 +41,7 @@ def main():
             "version": version,
             "update_link": f"https://github.com/{REPO}/releases/download/v{version}/{xpi.name}",
             "update_hash": "sha256:" + hashlib.sha256(xpi.read_bytes()).hexdigest(),
-            "applications": {
-                "gecko": {
-                    "strict_min_version": gecko["strict_min_version"],
-                    "strict_max_version": gecko["strict_max_version"],
-                }
-            },
+            "applications": {"gecko": app_versions},
         })
     data = {"addons": {ADDON_ID: {"updates": updates}}}
     (ROOT / "updates.json").write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")

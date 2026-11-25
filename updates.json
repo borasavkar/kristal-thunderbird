@@ -8,8 +8,17 @@
           "update_hash": "sha256:ea3c6e6642867f8fa50182864644e1454ec193918089e120dc54d14533389acf",
           "applications": {
             "gecko": {
-              "strict_min_version": "158.0",
-              "strict_max_version": "161.*"
+              "strict_min_version": "158.0"
+            }
+          }
+        },
+        {
+          "version": "1.0.11",
+          "update_link": "https://github.com/borasavkar/kristal-thunderbird/releases/download/v1.0.11/kristal-1.0.11.xpi",
+          "update_hash": "sha256:2a4603a067b7c95b37176b435d74bd12131ddc7c0af85ec2f6d4d106d384bdcf",
+          "applications": {
+            "gecko": {
+              "strict_min_version": "158.0"
             }
           }
         },
@@ -19,8 +28,7 @@
           "update_hash": "sha256:5672b43cd2d6b4786d0cda501949506937450f13a9ce3879c247481fe0239243",
           "applications": {
             "gecko": {
-              "strict_min_version": "158.0",
-              "strict_max_version": "161.*"
+              "strict_min_version": "158.0"
             }
           }
         },
@@ -30,8 +38,7 @@
           "update_hash": "sha256:d952b0d3a2dbbf318fc5a13122c8ffc94f9e202adc1d6bc9dd78745f455552d4",
           "applications": {
             "gecko": {
-              "strict_min_version": "158.0",
-              "strict_max_version": "161.*"
+              "strict_min_version": "158.0"
             }
           }
         }
