@@ -3,13 +3,24 @@
     "kristal@borasavkar.github.io": {
       "updates": [
         {
+          "version": "1.0.10",
+          "update_link": "https://github.com/borasavkar/kristal-thunderbird/releases/download/v1.0.10/kristal-1.0.10.xpi",
+          "update_hash": "sha256:ea3c6e6642867f8fa50182864644e1454ec193918089e120dc54d14533389acf",
+          "applications": {
+            "gecko": {
+              "strict_min_version": "158.0",
+              "strict_max_version": "161.*"
+            }
+          }
+        },
+        {
           "version": "1.0.8",
           "update_link": "https://github.com/borasavkar/kristal-thunderbird/releases/download/v1.0.8/kristal-1.0.8.xpi",
           "update_hash": "sha256:5672b43cd2d6b4786d0cda501949506937450f13a9ce3879c247481fe0239243",
           "applications": {
             "gecko": {
               "strict_min_version": "158.0",
-              "strict_max_version": "160.*"
+              "strict_max_version": "161.*"
             }
           }
         },
@@ -20,7 +31,7 @@
           "applications": {
             "gecko": {
               "strict_min_version": "158.0",
-              "strict_max_version": "160.*"
+              "strict_max_version": "161.*"
             }
           }
         }

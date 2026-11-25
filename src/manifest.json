@@ -3,7 +3,7 @@
   "name": "__MSG_extensionName__",
   "short_name": "Kristal",
   "description": "__MSG_extensionDescription__",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "author": "Bora Şavkar",
   "homepage_url": "https://github.com/borasavkar/kristal-thunderbird",
   "default_locale": "en",
@@ -11,7 +11,7 @@
     "gecko": {
       "id": "kristal@borasavkar.github.io",
       "strict_min_version": "158.0",
-      "strict_max_version": "160.*",
+      "strict_max_version": "161.*",
       "update_url": "https://raw.githubusercontent.com/borasavkar/kristal-thunderbird/main/updates.json"
     }
   },

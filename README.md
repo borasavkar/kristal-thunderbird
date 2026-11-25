@@ -17,7 +17,7 @@ Thunderbird görünümü.
 - Seçili sekme de aynı cam görünümündedir.
 - Koyu ve açık mod Windows ayarını kendiliğinden izler.
 
-Denenen sürüm: **Thunderbird 158.0.1, Windows 11**, kart görünümü.
+Denenen sürümler: **Thunderbird 158.0.1 ve 161.0, Windows 11**, kart görünümü.
 Başka sürümlerde denenmedi.
 
 ![Koyu mod: seçili kart şeffaf cama dönüşür, Spam ve Sil düğmeleri kartın içindedir](docs/screenshots/01-koyu-secili-kart.png)
@@ -42,8 +42,8 @@ tamamı `src` klasöründedir.
 
 ## Kurulum
 
-1. En yeni sürüm **1.0.9**:
-   [`kristal-1.0.9.xpi`](https://github.com/borasavkar/kristal-thunderbird/releases/download/v1.0.9/kristal-1.0.9.xpi)
+1. En yeni sürüm **1.0.10**:
+   [`kristal-1.0.10.xpi`](https://github.com/borasavkar/kristal-thunderbird/releases/download/v1.0.10/kristal-1.0.10.xpi)
    dosyasını indirin. Daha yeni bir sürüm çıktıysa
    [Sürümler sayfasında](https://github.com/borasavkar/kristal-thunderbird/releases/latest)
    bulunur.
@@ -52,7 +52,7 @@ tamamı `src` klasöründedir.
 4. İndirdiğiniz dosyayı seçin ve **Ekle** deyin.
 
 1.0.8 ve sonrası kendini GitHub'dan günceller: yeni sürüm çıkınca Thunderbird
-onu kendiliğinden bulur ve kurar. 1.0.7 veya daha eskisini kurduysanız 1.0.9'u
+onu kendiliğinden bulur ve kurar. 1.0.7 veya daha eskisini kurduysanız 1.0.10'u
 yukarıdaki adımlarla bir kez elle kurmanız yeterli; sonrası kendiliğinden gelir.
 
 Kristal, Thunderbird'ün resmî eklenti sitesinde yok (aşağıya bakın); bu yüzden
